@@ -10,6 +10,7 @@ module.exports = {
           "@utils": "./src/utils",
           "@routes": "./src/routes",
           "@themes": "./src/themes",
+          "@assets": "./src/assets",
           "@storage": "./src/storage",
           "@features": "./src/features",
           "@contexts": "./src/contexts",
