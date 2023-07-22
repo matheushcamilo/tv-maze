@@ -17,9 +17,7 @@ import {
   ReloadInstructions,
 } from "react-native/Libraries/NewAppScreen";
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+type SectionProps = PropsWithChildren<{ title: string }>;
 
 function Section({ children, title }: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === "dark";
@@ -91,15 +89,15 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: "600",
+    fontFamily: "Satoshi-Bold",
   },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
-    fontWeight: "400",
+    fontFamily: "Satoshi-Medium",
   },
   highlight: {
-    fontWeight: "700",
+    fontFamily: "Satoshi-Bold",
   },
 });
 

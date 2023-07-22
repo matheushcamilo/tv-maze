@@ -10,8 +10,7 @@
       "@storage": ["./src/storage"],
       "@features": ["./src/features"],
       "@contexts": ["./src/contexts"],
-      "@components": ["./src/components"],
-      "@notifications": ["./src/notifications"]
+      "@components": ["./src/components"]
     },
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "types": ["jest"]
