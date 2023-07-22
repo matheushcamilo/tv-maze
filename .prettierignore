@@ -1,0 +1,7 @@
+.bundle
+android
+ios
+node_modules
+coverage
+.vscode
+vendor
