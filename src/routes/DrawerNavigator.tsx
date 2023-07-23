@@ -15,6 +15,7 @@ export function DrawerNavigator() {
       initialRouteName="ShowScreen"
       screenOptions={{
         headerTintColor: palette.grayExtraLight,
+        headerTitleStyle: { fontSize: 20, fontFamily: "Satoshi-Bold" },
         headerStyle: { backgroundColor: palette.greenDark },
         headerTitle: "TVmaze",
         drawerStyle: { backgroundColor: palette.grayExtraLight },
