@@ -1,6 +1,8 @@
 import axios, { AxiosInstance, CancelTokenSource } from "axios";
 import { MMKV } from "react-native-mmkv";
 
+import { BASE_URL } from "@env";
+
 import { CacheItem, SearchShowResponse, ShowResponse } from "./services-types";
 
 // 7 days in milliseconds
@@ -13,7 +15,7 @@ class ApiService {
 
   constructor() {
     this.api = axios.create({
-      baseURL: "https://api.tvmaze.com",
+      baseURL: BASE_URL,
     });
     this.storage = new MMKV();
   }
