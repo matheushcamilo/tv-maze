@@ -1,2 +1,2 @@
-export * from "./useGetShows";
+export * from "./useDebounce";
 export * from "./useSafeArea";

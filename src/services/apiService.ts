@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, CancelTokenSource } from "axios";
 import { MMKV } from "react-native-mmkv";
 
-import { CacheItem, ShowResponse } from "./services-types";
+import { CacheItem, SearchShowResponse, ShowResponse } from "./services-types";
 
 // 7 days in milliseconds
 const ONE_WEEK_IN_MILLISECONDS = 7 * 24 * 60 * 60 * 1000;
@@ -79,7 +79,7 @@ class ApiService {
     }
   }
 
-  public async searchShows(query: string): Promise<any> {
+  public async searchShows(query: string): Promise<SearchShowResponse[]> {
     try {
       const response = await this.api.get(`/search/shows?q=${query}`, {
         cancelToken: this.createCancelToken(),

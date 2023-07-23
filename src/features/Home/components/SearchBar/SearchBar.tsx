@@ -12,6 +12,7 @@ export function SearchBar({ value, onChangeText, style, viewStyle, ...rest }: Se
         style={[styles.input, style]}
         value={value}
         onChangeText={onChangeText}
+        placeholderTextColor="#D3D3D3"
         placeholder="Search for a series..."
         {...rest}
       />
@@ -21,13 +22,15 @@ export function SearchBar({ value, onChangeText, style, viewStyle, ...rest }: Se
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    paddingVertical: 10,
   },
   input: {
     height: 50,
-    borderColor: "gray",
+    borderColor: "#A9A9A9",
     borderWidth: 1,
+    borderRadius: 4,
     paddingLeft: 10,
     width: "100%",
+    fontSize: 16,
   },
 });

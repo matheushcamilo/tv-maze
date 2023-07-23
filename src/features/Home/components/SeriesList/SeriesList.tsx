@@ -3,6 +3,7 @@ import { FlatList, ListRenderItem } from "react-native";
 
 import { ShowResponse } from "@services";
 
+import { EmptyListMessage } from "../EmptyListMessage/EmptyListMessage";
 import { SeriesItem } from "../SeriesItem/SeriesItem";
 
 type SeriesListProps = {
@@ -35,6 +36,7 @@ export function SeriesList({ shows }: SeriesListProps) {
       keyExtractor={item => item.id.toString()}
       renderItem={renderItem}
       showsVerticalScrollIndicator={false}
+      ListEmptyComponent={<EmptyListMessage />}
     />
   );
 }

@@ -65,3 +65,8 @@ export interface CacheItem {
   value: any;
   timestamp: number;
 }
+
+export type SearchShowResponse = {
+  score: number;
+  show: ShowResponse;
+};
