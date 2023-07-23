@@ -1,7 +1,7 @@
 import React from "react";
 import { ColorValue, GestureResponderEvent, Pressable } from "react-native";
 
-import { HomeIcon } from "@assets";
+import { HomeIcon, ImageIcon } from "@assets";
 
 export interface IconBase {
   size: number;
@@ -29,6 +29,7 @@ export function Icon({ name, color, size, onPress }: IconProps) {
 
 const iconRegistry = {
   home: HomeIcon,
+  image: ImageIcon,
 };
 
 type IconName = keyof typeof iconRegistry;
