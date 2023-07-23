@@ -1,7 +1,7 @@
 import React from "react";
 import { ColorValue, GestureResponderEvent, Pressable } from "react-native";
 
-import { HomeIcon, ImageIcon } from "@assets";
+import { HomeIcon, ImageIcon, ArrowLeftIcon } from "@assets";
 
 export interface IconBase {
   size: number;
@@ -28,6 +28,7 @@ export function Icon({ name, color, size, onPress }: IconProps) {
 }
 
 const iconRegistry = {
+  "arrow-left": ArrowLeftIcon,
   home: HomeIcon,
   image: ImageIcon,
 };
