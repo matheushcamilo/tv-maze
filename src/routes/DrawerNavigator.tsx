@@ -23,8 +23,8 @@ export function DrawerNavigator() {
         drawerActiveTintColor: palette.greenDark,
         drawerInactiveTintColor: palette.green,
       }}>
-      <Drawer.Screen name="ShowScreen" component={ShowScreen} />
-      <Drawer.Screen name="FavoriteScreen" component={FavoriteScreen} />
+      <Drawer.Screen name="ShowScreen" component={ShowScreen} options={{ drawerLabel: "Shows" }} />
+      <Drawer.Screen name="FavoriteScreen" component={FavoriteScreen} options={{ drawerLabel: "Favorites" }} />
     </Drawer.Navigator>
   );
 }
