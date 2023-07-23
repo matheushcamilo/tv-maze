@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInput, View, StyleSheet, TextInputProps, ViewStyle, StyleProp } from "react-native";
 
-import { palette } from "@themes";
+import { palette, spacing } from "@themes";
 
 interface SearchBarProps extends TextInputProps {
   viewStyle?: StyleProp<ViewStyle>;
@@ -25,15 +25,16 @@ export function SearchBar({ value, onChangeText, style, viewStyle, ...rest }: Se
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 10,
+    paddingBottom: spacing.s12,
   },
   input: {
-    height: 50,
+    height: spacing.s24 * 2,
     borderColor: palette.grayLight,
     borderWidth: 1,
     borderRadius: 4,
-    paddingLeft: 10,
+    paddingLeft: spacing.s8,
     width: "100%",
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: "Satoshi-Regular",
   },
 });

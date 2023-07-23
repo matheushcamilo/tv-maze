@@ -1,9 +1,11 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 
 import { DrawerScreenProps } from "@react-navigation/drawer";
 
 import { Screen, LoadingOverlay } from "@components";
 import { DrawerRootParamList } from "@routes";
+import { spacing } from "@themes";
 
 import { Pagination } from "../components/Pagination/Pagination";
 import { SearchBar } from "../components/SearchBar/SearchBar";
@@ -25,7 +27,7 @@ export function ShowScreen({}: ShowScreenProps) {
   }
 
   return (
-    <Screen>
+    <Screen style={styles.container}>
       <SearchBar {...searchBar} />
       <SeriesList shows={isSearching ? searchResults : shows} />
       <Pagination page={page} onChangePage={setPage} disabled={isSearching} />
@@ -33,3 +35,9 @@ export function ShowScreen({}: ShowScreenProps) {
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: spacing.s12,
+  },
+});
