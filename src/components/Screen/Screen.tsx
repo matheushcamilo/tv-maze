@@ -2,6 +2,7 @@ import React, { type PropsWithChildren } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, View, ViewProps } from "react-native";
 
 import { useSafeArea } from "@hooks";
+import { palette } from "@themes";
 
 import { ScrollViewContainer, ViewContainer } from "./components/ScreenContainer";
 
@@ -29,5 +30,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
+    backgroundColor: palette.grayExtraLight,
   },
 });

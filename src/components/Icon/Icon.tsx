@@ -18,7 +18,7 @@ export function Icon({ name, color, size, onPress }: IconProps) {
 
   if (onPress) {
     return (
-      <Pressable hitSlop={10} onPress={onPress}>
+      <Pressable hitSlop={10} onPress={onPress} accessibilityRole="button">
         <SVGIcon color={color} size={size} />
       </Pressable>
     );

@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 
 import { Icon } from "@components";
+import { palette, spacing } from "@themes";
 
 export interface SeriesItemProps {
   name: string;
@@ -17,23 +18,30 @@ function ComponentMemoized({ image, language, name, rating, status }: SeriesItem
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {!imageLoaded && <Icon color="#D3D3D3" name="image" size={80} />}
+        {!imageLoaded && <Icon color={palette.grayLighter} name="image" size={80} />}
         {image ? (
           <Image
             style={StyleSheet.absoluteFillObject}
             onLoad={() => setImageLoaded(true)}
-            source={{ uri: image }} // Check if image exists before accessing medium
+            source={{ uri: image }}
             resizeMode="cover"
+            accessibilityRole="image"
           />
         ) : null}
       </View>
       <View style={styles.description}>
-        <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+        <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail" accessibilityRole="text">
           {name}
         </Text>
-        <Text style={styles.descriptionContent}>{`Rating: ${rating ? rating.toFixed(1) : "Under Review"}`}</Text>
-        <Text style={styles.descriptionContent}>Status: {status}</Text>
-        <Text style={styles.descriptionContent}>Language: {language}</Text>
+        <Text style={styles.descriptionContent} accessibilityRole="text">{`Rating: ${
+          rating ? rating.toFixed(1) : "Under Review"
+        }`}</Text>
+        <Text style={styles.descriptionContent} accessibilityRole="text">
+          Status: {status}
+        </Text>
+        <Text style={styles.descriptionContent} accessibilityRole="text">
+          Language: {language}
+        </Text>
       </View>
     </View>
   );
@@ -46,15 +54,15 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: spacing.s12,
     borderRadius: 4,
-    borderColor: "#98D4CE",
+    borderColor: palette.greenLight,
     borderWidth: 1,
   },
   imageContainer: {
     width: 100,
     height: 100,
-    marginRight: 4,
+    marginRight: spacing.s4,
     borderTopLeftRadius: 4,
     borderBottomLeftRadius: 4,
     justifyContent: "center",
@@ -65,14 +73,14 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: 0.25,
     fontFamily: "Satoshi-Bold",
-    color: "#126B62",
-    marginBottom: 4,
+    color: palette.greenDark,
+    marginBottom: spacing.s4,
   },
   descriptionContent: {
     fontSize: 14,
     lineHeight: 20,
     fontFamily: "Satoshi-Medium",
-    color: "#808080",
+    color: palette.gray,
   },
   description: {
     flex: 1,

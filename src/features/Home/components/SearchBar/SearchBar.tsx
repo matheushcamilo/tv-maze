@@ -1,6 +1,8 @@
 import React from "react";
 import { TextInput, View, StyleSheet, TextInputProps, ViewStyle, StyleProp } from "react-native";
 
+import { palette } from "@themes";
+
 interface SearchBarProps extends TextInputProps {
   viewStyle?: StyleProp<ViewStyle>;
 }
@@ -12,9 +14,10 @@ export function SearchBar({ value, onChangeText, style, viewStyle, ...rest }: Se
         style={[styles.input, style]}
         value={value}
         onChangeText={onChangeText}
-        placeholderTextColor="#D3D3D3"
+        placeholderTextColor={palette.grayLight}
         placeholder="Search for a series..."
         {...rest}
+        accessibilityRole="search"
       />
     </View>
   );
@@ -26,7 +29,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: "#A9A9A9",
+    borderColor: palette.grayLight,
     borderWidth: 1,
     borderRadius: 4,
     paddingLeft: 10,

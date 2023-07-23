@@ -1,6 +1,8 @@
 import React from "react";
 import { ActivityIndicator, Modal, View, StyleSheet } from "react-native";
 
+import { palette } from "@themes";
+
 interface LoadingOverlayProps {
   visible: boolean;
 }
@@ -9,7 +11,7 @@ export function LoadingOverlay({ visible }: LoadingOverlayProps) {
   return (
     <Modal visible={visible} transparent={true}>
       <View style={styles.modalBackground}>
-        <ActivityIndicator size="large" color="#3C948B" />
+        <ActivityIndicator size="large" color={palette.green} />
       </View>
     </Modal>
   );

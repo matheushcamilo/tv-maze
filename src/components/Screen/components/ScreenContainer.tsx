@@ -1,11 +1,13 @@
 import React, { type PropsWithChildren } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
+import { palette } from "@themes";
+
 interface Props extends PropsWithChildren {
   backgroundColor?: string;
 }
 
-export function ScrollViewContainer({ children, backgroundColor }: Props) {
+export function ScrollViewContainer({ children, backgroundColor = palette.grayExtraLight }: Props) {
   return (
     <ScrollView keyboardShouldPersistTaps="handled" style={[styles.container, { backgroundColor }]}>
       {children}
@@ -13,7 +15,7 @@ export function ScrollViewContainer({ children, backgroundColor }: Props) {
   );
 }
 
-export function ViewContainer({ children, backgroundColor }: Props) {
+export function ViewContainer({ children, backgroundColor = palette.grayExtraLight }: Props) {
   return <View style={[styles.container, { backgroundColor }]}>{children}</View>;
 }
 

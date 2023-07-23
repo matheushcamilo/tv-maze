@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 
+import { palette, spacing } from "@themes";
+
 interface PaginationProps {
   page: number;
   onChangePage: (newPage: number) => void;
@@ -20,9 +22,16 @@ export function Pagination({ page, onChangePage, disabled = false }: PaginationP
 
   return (
     <View style={styles.container}>
-      <Button title="Previous" onPress={handlePreviousPage} disabled={page === 1 || disabled} />
-      <Text style={styles.pageNumber}>{page}</Text>
-      <Button title="Next" onPress={handleNextPage} disabled={disabled} />
+      <Button
+        color={palette.greenDark}
+        title="Previous"
+        onPress={handlePreviousPage}
+        disabled={page === 1 || disabled}
+      />
+      <Text style={styles.pageNumber} accessibilityRole="text">
+        {page}
+      </Text>
+      <Button color={palette.greenDark} title="Next" onPress={handleNextPage} disabled={disabled} />
     </View>
   );
 }
@@ -32,10 +41,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
-    backgroundColor: "#ffffff",
+    padding: spacing.s12,
+    backgroundColor: palette.grayExtraLight,
   },
   pageNumber: {
-    fontSize: 18,
+    fontSize: 20,
+    lineHeight: 26,
+    color: palette.greenDark,
+    fontFamily: "Satoshi-Medium",
   },
 });
