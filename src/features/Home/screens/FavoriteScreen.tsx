@@ -12,7 +12,7 @@ type FavoriteScreenProps = DrawerScreenProps<DrawerRootParamList, "FavoriteScree
 export function FavoriteScreen({}: FavoriteScreenProps) {
   return (
     <Screen style={styles.container}>
-      <Text>FavoriteScreen</Text>
+      <Text>Favorite Screen</Text>
     </Screen>
   );
 }

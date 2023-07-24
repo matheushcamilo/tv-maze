@@ -3,7 +3,14 @@ import { MMKV } from "react-native-mmkv";
 
 import { BASE_URL } from "@env";
 
-import { CacheItem, SearchShowResponse, ShowDetails, ShowResponse } from "./services-types";
+import {
+  CacheItem,
+  EpisodeDetailsResponse,
+  EpisodeResponse,
+  SearchShowResponse,
+  ShowDetails,
+  ShowResponse,
+} from "./services-types";
 
 // 7 days in milliseconds
 const ONE_WEEK_IN_MILLISECONDS = 7 * 24 * 60 * 60 * 1000;
@@ -125,11 +132,23 @@ class ApiService {
     }
   }
 
-  public async getShowEpisodes(id: number): Promise<any> {
+  public async getShowEpisodes(id: number): Promise<EpisodeResponse[]> {
+    const cacheKey = `show_episodes_${id}`;
+
+    const cachedData = await this.getFromCache(cacheKey);
+    if (cachedData) {
+      return cachedData as EpisodeResponse[];
+    }
+
     try {
-      const response = await this.api.get(`/shows/${id}/episodes`, {
+      const response = await this.api.get<EpisodeResponse[]>(`/shows/${id}/episodes`, {
         cancelToken: this.createCancelToken(),
       });
+
+      // This message will appear only if API call is made
+      console.log("API request made for show id: ", id);
+
+      await this.setToCache(cacheKey, response.data);
 
       return response.data;
     } catch (error) {
@@ -141,11 +160,23 @@ class ApiService {
     }
   }
 
-  public async getEpisodeDetails(id: number): Promise<any> {
+  public async getEpisodeDetails(id: number): Promise<EpisodeDetailsResponse | null> {
+    const cacheKey = `episode_details_${id}`;
+
+    const cachedData = await this.getFromCache(cacheKey);
+    if (cachedData) {
+      return cachedData as EpisodeDetailsResponse;
+    }
+
     try {
-      const response = await this.api.get(`/episodes/${id}`, {
+      const response = await this.api.get<EpisodeDetailsResponse>(`/episodes/${id}`, {
         cancelToken: this.createCancelToken(),
       });
+
+      // This message will appear only if API call is made
+      console.log("API request made for episode id: ", id);
+
+      await this.setToCache(cacheKey, response.data);
 
       return response.data;
     } catch (error) {
@@ -153,7 +184,7 @@ class ApiService {
         console.log(error.message);
       }
 
-      return [];
+      return null;
     }
   }
 }

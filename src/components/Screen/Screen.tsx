@@ -42,11 +42,11 @@ export function Screen({ children, canGoBack = false, scrollable = false, style,
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: spacing.s16,
+    paddingHorizontal: spacing.s12,
     backgroundColor: palette.grayExtraLight,
   },
   goBack: {
-    marginBottom: spacing.s24,
+    marginBottom: spacing.s12,
     flexDirection: "row",
     alignItems: "center",
   },

@@ -99,3 +99,61 @@ export type ShowDetails = ShowResponse & {
 };
 
 export type WeekDays = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+
+export type EpisodeResponse = {
+  id: number;
+  url: string;
+  name: string;
+  season: number;
+  number: number;
+  type: string;
+  airdate: string;
+  airtime: string;
+  airstamp: string;
+  runtime: number;
+  rating: {
+    average: number;
+  };
+  image: {
+    medium: string;
+    original: string;
+  };
+  summary: string;
+  _links: {
+    self: {
+      href: string;
+    };
+    show: {
+      href: string;
+    };
+  };
+};
+
+export type EpisodeDetailsResponse = {
+  id: number;
+  url: string;
+  name: string;
+  season: number;
+  number: number;
+  type: string;
+  airdate: string;
+  airtime: string;
+  airstamp: string;
+  runtime: number;
+  rating: {
+    average: number;
+  };
+  image: {
+    medium: string;
+    original: string;
+  };
+  summary: string;
+  _links: {
+    self: {
+      href: string;
+    };
+    show: {
+      href: string;
+    };
+  };
+};

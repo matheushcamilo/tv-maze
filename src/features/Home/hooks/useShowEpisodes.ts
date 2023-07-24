@@ -2,33 +2,33 @@ import React from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import { ShowDetails, apiService } from "@services";
+import { EpisodeResponse, apiService } from "@services";
 
 interface State {
-  showDetails: ShowDetails | null;
+  episodes: EpisodeResponse[];
   loading: boolean;
   error: Error | null;
 }
 
 type Action =
   | { type: "FETCH/INIT" }
-  | { type: "FETCH/SUCCESS"; payload: ShowDetails }
+  | { type: "FETCH/SUCCESS"; payload: EpisodeResponse[] }
   | { type: "FETCH/FAILURE"; payload: Error };
 
 const initialState: State = {
-  showDetails: null,
+  episodes: [],
   loading: false,
   error: null,
 };
 
-function detailsReducer(draft: State, action: Action): void {
+function episodesReducer(draft: State, action: Action): void {
   switch (action.type) {
     case "FETCH/INIT":
       draft.loading = true;
       draft.error = null;
       break;
     case "FETCH/SUCCESS":
-      draft.showDetails = action.payload;
+      draft.episodes = action.payload;
       draft.loading = false;
       break;
     case "FETCH/FAILURE":
@@ -36,12 +36,12 @@ function detailsReducer(draft: State, action: Action): void {
       draft.loading = false;
       break;
     default:
-      console.log("useShowDetails: No action type found");
+      console.log("useShowEpisodes: No action type found");
   }
 }
 
-export function useShowDetails(id: number | undefined) {
-  const [state, dispatch] = useImmerReducer(detailsReducer, initialState);
+export function useShowEpisodes(id: number | undefined) {
+  const [state, dispatch] = useImmerReducer(episodesReducer, initialState);
 
   React.useEffect(() => {
     if (!id) {
@@ -52,12 +52,10 @@ export function useShowDetails(id: number | undefined) {
 
     (async () => {
       try {
-        const details = await apiService.getShowDetails(id);
-        if (details) {
-          dispatch({ type: "FETCH/SUCCESS", payload: details });
-        }
-      } catch (fetchError) {
-        dispatch({ type: "FETCH/FAILURE", payload: fetchError as Error });
+        const episodes = await apiService.getShowEpisodes(id);
+        dispatch({ type: "FETCH/SUCCESS", payload: episodes });
+      } catch (err) {
+        dispatch({ type: "FETCH/FAILURE", payload: err as Error });
       }
     })();
 

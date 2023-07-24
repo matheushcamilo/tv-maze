@@ -9,7 +9,10 @@ interface Props extends PropsWithChildren {
 
 export function ScrollViewContainer({ children, backgroundColor = palette.grayExtraLight }: Props) {
   return (
-    <ScrollView keyboardShouldPersistTaps="handled" style={[styles.container, { backgroundColor }]}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+      style={[styles.container, { backgroundColor }]}>
       {children}
     </ScrollView>
   );

@@ -51,6 +51,7 @@ export function useSearchShows() {
   React.useEffect(() => {
     if (debouncedValue) {
       dispatch({ type: "FETCH/INIT" });
+
       (async () => {
         try {
           const results = await apiService.searchShows(debouncedValue);

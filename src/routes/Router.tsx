@@ -3,7 +3,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { EpisodeDetailsScreen, ShowDetailsScreen } from "@features";
+import { EpisodeDetailsScreen, EpisodesListScreen, ShowDetailsScreen } from "@features";
 
 import { DrawerNavigator } from "./DrawerNavigator";
 import { StackRootParamList } from "./navigation-types";
@@ -20,6 +20,7 @@ export function Router() {
         }}
         initialRouteName="DrawerNavigator">
         <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
+        <Stack.Screen name="EpisodesListScreen" component={EpisodesListScreen} />
         <Stack.Screen name="EpisodeDetailsScreen" component={EpisodeDetailsScreen} />
         <Stack.Screen name="ShowDetailsScreen" component={ShowDetailsScreen} />
       </Stack.Navigator>

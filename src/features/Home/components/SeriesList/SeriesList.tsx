@@ -16,6 +16,7 @@ export function SeriesList({ shows }: SeriesListProps) {
   const renderItem: ListRenderItem<ShowResponse> = ({ item }) => {
     return (
       <SeriesItem
+        id={item?.id}
         image={item?.image?.medium}
         name={item?.name}
         rating={item?.rating?.average}
