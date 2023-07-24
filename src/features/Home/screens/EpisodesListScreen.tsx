@@ -29,7 +29,7 @@ type SectionHeader = (info: {
   >;
 }) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 
-type Item = SectionListRenderItem<
+type RenderItem = SectionListRenderItem<
   EpisodeResponse,
   {
     title: string;
@@ -37,7 +37,7 @@ type Item = SectionListRenderItem<
   }
 >;
 
-export function EpisodesListScreen({ route }: EpisodesListScreenProps) {
+export function EpisodesListScreen({ route, navigation }: EpisodesListScreenProps) {
   const { selectors } = useShowEpisodes(route.params?.id);
 
   const sections = selectors.groupEpisodesBySeason();
@@ -52,13 +52,17 @@ export function EpisodesListScreen({ route }: EpisodesListScreenProps) {
     );
   };
 
-  const renderItem: Item = ({ item }) => {
+  const renderItem: RenderItem = ({ item }) => {
+    function navigateToEpisodeDetailsScreen() {
+      navigation.navigate("EpisodeDetailsScreen", { id: item.id });
+    }
+
     return (
-      <TouchableOpacity style={styles.itemContainer}>
+      <TouchableOpacity style={styles.itemContainer} onPress={navigateToEpisodeDetailsScreen}>
         <Text style={[styles.item, styles.episode]} accessibilityRole="text">
-          {`Episode ${item.number.toString().padStart(2, "0")}:`}
+          {`Episode ${item.number.toString().padStart(2, "0")}`}
         </Text>
-        <Text style={styles.item} accessibilityRole="text">
+        <Text style={styles.item} numberOfLines={1} ellipsizeMode="tail" accessibilityRole="text">
           {item.name}
         </Text>
       </TouchableOpacity>
@@ -94,21 +98,19 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
   },
   itemContainer: {
-    flexDirection: "row",
     marginBottom: spacing.s12,
-    paddingVertical: spacing.s12,
+    paddingVertical: spacing.s8,
     paddingHorizontal: spacing.s4,
     backgroundColor: palette.greenLight,
     borderRadius: 4,
   },
   item: {
     fontFamily: "Satoshi-Bold",
-    fontSize: 16,
-    lineHeight: 22,
+    fontSize: 18,
+    lineHeight: 24,
     color: palette.grayExtraLight,
   },
   episode: {
-    marginRight: spacing.s8,
     fontFamily: "Satoshi-Medium",
     color: palette.greenDark,
   },

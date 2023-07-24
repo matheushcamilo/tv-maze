@@ -4,7 +4,7 @@ export type StackRootParamList = {
   DrawerNavigator: NavigatorScreenParams<DrawerRootParamList>;
   ShowDetailsScreen: undefined | { id: number };
   EpisodesListScreen: undefined | { id: number };
-  EpisodeDetailsScreen: undefined;
+  EpisodeDetailsScreen: undefined | { id: number };
 };
 
 export type DrawerRootParamList = {

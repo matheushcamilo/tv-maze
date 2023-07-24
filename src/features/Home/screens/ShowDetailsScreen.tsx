@@ -23,11 +23,11 @@ export function ShowDetailsScreen({ route }: ShowDetailsScreenProps) {
 
   const scheduleString = React.useMemo(() => {
     let _string = "";
-    if (showDetails?.schedule.time) {
+    if (showDetails?.schedule?.time) {
       _string += `${showDetails.schedule.time}h`;
     }
 
-    if (showDetails?.schedule.time && showDetails?.schedule.days.length > 0) {
+    if (showDetails?.schedule?.time && showDetails?.schedule?.days?.length > 0) {
       _string += " | ";
     }
 
@@ -35,7 +35,7 @@ export function ShowDetailsScreen({ route }: ShowDetailsScreenProps) {
       _string += formatDays(showDetails?.schedule?.days);
     }
 
-    if (showDetails?.schedule.days.length === 0 && !showDetails?.schedule.time) {
+    if (showDetails?.schedule?.days?.length === 0 && !showDetails?.schedule?.time) {
       _string = "No content.";
     }
 
@@ -43,7 +43,7 @@ export function ShowDetailsScreen({ route }: ShowDetailsScreenProps) {
   }, [showDetails?.schedule]);
 
   const genresString = React.useMemo(() => {
-    return showDetails?.genres.length && showDetails?.genres.length > 0
+    return showDetails?.genres?.length && showDetails?.genres?.length > 0
       ? showDetails?.genres.join(", ")
       : "No content.";
   }, [showDetails?.genres]);
@@ -109,7 +109,7 @@ export function ShowDetailsScreen({ route }: ShowDetailsScreenProps) {
           <Text style={styles.subtitle} accessibilityRole="text">
             Summary
           </Text>
-          {showDetails.summary.length > 0 ? (
+          {showDetails.summary?.length > 0 ? (
             <RenderHTML {...htmlProps} />
           ) : (
             <Text style={styles.subtitleInfo} accessibilityRole="text">
