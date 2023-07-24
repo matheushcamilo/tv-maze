@@ -40,6 +40,26 @@ function episodesReducer(draft: State, action: Action): void {
   }
 }
 
+function getEpisodesSelectors(state: State) {
+  function groupEpisodesBySeason(): { title: string; data: EpisodeResponse[] }[] {
+    const episodesBySeason: { [key: number]: EpisodeResponse[] } = {};
+    state.episodes.forEach(episode => {
+      if (!episodesBySeason[episode.season]) {
+        episodesBySeason[episode.season] = [];
+      }
+
+      episodesBySeason[episode.season].push(episode);
+    });
+
+    return Object.entries(episodesBySeason).map(([seasonNumber, episodes]) => ({
+      title: `Season ${seasonNumber.padStart(2, "0")}`,
+      data: episodes,
+    }));
+  }
+
+  return { groupEpisodesBySeason };
+}
+
 export function useShowEpisodes(id: number | undefined) {
   const [state, dispatch] = useImmerReducer(episodesReducer, initialState);
 
@@ -64,5 +84,7 @@ export function useShowEpisodes(id: number | undefined) {
     };
   }, [id, dispatch]);
 
-  return state;
+  const selectors = getEpisodesSelectors(state);
+
+  return { ...state, selectors };
 }
