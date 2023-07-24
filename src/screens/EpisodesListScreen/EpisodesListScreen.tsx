@@ -12,7 +12,7 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { Screen } from "@components";
-import { useShowEpisodes } from "@features";
+import { useShowEpisodes } from "@hooks";
 import { StackRootParamList } from "@routes";
 import { EpisodeResponse } from "@services";
 import { palette, spacing } from "@themes";

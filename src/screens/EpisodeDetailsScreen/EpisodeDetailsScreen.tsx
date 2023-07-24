@@ -5,7 +5,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
 
 import { Icon, LoadingOverlay, Screen } from "@components";
-import { useEpisodeDetails } from "@features";
+import { useEpisodeDetails } from "@hooks";
 import { StackRootParamList } from "@routes";
 import { palette, spacing } from "@themes";
 

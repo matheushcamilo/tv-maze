@@ -8,9 +8,9 @@
       "@themes": ["./src/themes"],
       "@routes": ["./src/routes"],
       "@assets": ["./src/assets"],
+      "@screens": ["./src/screens"],
       "@storage": ["./src/storage"],
       "@services": ["./src/services"],
-      "@features": ["./src/features"],
       "@contexts": ["./src/contexts"],
       "@components": ["./src/components"]
     },

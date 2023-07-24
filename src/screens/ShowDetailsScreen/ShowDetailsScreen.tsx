@@ -5,8 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
 
-import { Icon, Screen } from "@components";
-import { useShowDetails } from "@features";
+import { EmptyListMessage, Icon, LoadingOverlay, Screen } from "@components";
+import { useShowDetails } from "@hooks";
 import { StackRootParamList } from "@routes";
 import { palette, spacing } from "@themes";
 import { formatDays } from "@utils";
@@ -58,74 +58,76 @@ export function ShowDetailsScreen({ route }: ShowDetailsScreenProps) {
     };
   }, [showDetails?.summary, contentWidth, systemFonts]);
 
+  if (loading) {
+    return <LoadingOverlay visible={loading} />;
+  }
+
+  if (!showDetails) {
+    return (
+      <Screen canGoBack scrollable>
+        <EmptyListMessage />
+      </Screen>
+    );
+  }
+
   return (
     <Screen canGoBack scrollable>
-      {loading ? (
-        <View style={styles.loadingContainer}>
-          <Text style={styles.subtitle} accessibilityRole="text">
-            Loading ...
-          </Text>
-        </View>
-      ) : !showDetails ? null : (
-        <>
-          <View style={styles.imageContainer}>
-            {!imageLoaded && (
-              <View style={styles.iconContainer}>
-                <Icon color={palette.grayLighter} name="image" size={350} />
-              </View>
-            )}
-            <Image
-              source={{ uri: showDetails.image.original }}
-              style={styles.image}
-              resizeMode="contain"
-              onLoad={() => setImageLoaded(true)}
-            />
+      <View style={styles.imageContainer}>
+        {!imageLoaded && (
+          <View style={styles.iconContainer}>
+            <Icon color={palette.grayLighter} name="image" size={350} />
           </View>
+        )}
+        <Image
+          source={{ uri: showDetails.image.original }}
+          style={styles.image}
+          resizeMode="contain"
+          onLoad={() => setImageLoaded(true)}
+        />
+      </View>
 
-          <View style={styles.titleContainer}>
-            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail" accessibilityRole="text">
-              {showDetails.name}
-            </Text>
-          </View>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail" accessibilityRole="text">
+          {showDetails.name}
+        </Text>
+      </View>
 
-          <View style={styles.subtitleContainer}>
-            <Text style={styles.subtitle} accessibilityRole="text">
-              Schedule
-            </Text>
-            <Text style={styles.subtitleInfo} accessibilityRole="text">
-              {scheduleString}
-            </Text>
-          </View>
+      <View style={styles.subtitleContainer}>
+        <Text style={styles.subtitle} accessibilityRole="text">
+          Schedule
+        </Text>
+        <Text style={styles.subtitleInfo} accessibilityRole="text">
+          {scheduleString}
+        </Text>
+      </View>
 
-          <View style={styles.subtitleContainer}>
-            <Text style={styles.subtitle} accessibilityRole="text">
-              Genres
-            </Text>
-            <Text style={styles.subtitleInfo} accessibilityRole="text">
-              {genresString}
-            </Text>
-          </View>
+      <View style={styles.subtitleContainer}>
+        <Text style={styles.subtitle} accessibilityRole="text">
+          Genres
+        </Text>
+        <Text style={styles.subtitleInfo} accessibilityRole="text">
+          {genresString}
+        </Text>
+      </View>
 
-          <Text style={styles.subtitle} accessibilityRole="text">
-            Summary
-          </Text>
-          {showDetails.summary?.length > 0 ? (
-            <RenderHTML {...htmlProps} />
-          ) : (
-            <Text style={styles.subtitleInfo} accessibilityRole="text">
-              No content.
-            </Text>
-          )}
-
-          <View style={styles.buttonContainer}>
-            <Button
-              color={palette.greenDark}
-              title="View Episodes by Season"
-              onPress={() => navigate("EpisodesListScreen", { id: showDetails?.id })}
-            />
-          </View>
-        </>
+      <Text style={styles.subtitle} accessibilityRole="text">
+        Summary
+      </Text>
+      {showDetails.summary?.length > 0 ? (
+        <RenderHTML {...htmlProps} />
+      ) : (
+        <Text style={styles.subtitleInfo} accessibilityRole="text">
+          No content.
+        </Text>
       )}
+
+      <View style={styles.buttonContainer}>
+        <Button
+          color={palette.greenDark}
+          title="View Episodes by Season"
+          onPress={() => navigate("EpisodesListScreen", { id: showDetails?.id })}
+        />
+      </View>
     </Screen>
   );
 }

@@ -3,7 +3,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { EpisodeDetailsScreen, EpisodesListScreen, ShowDetailsScreen } from "@features";
+import { EpisodeDetailsScreen, EpisodesListScreen, ShowDetailsScreen } from "@screens";
 
 import { DrawerNavigator } from "./DrawerNavigator";
 import { StackRootParamList } from "./navigation-types";

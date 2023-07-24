@@ -3,15 +3,10 @@ import { StyleSheet } from "react-native";
 
 import { DrawerScreenProps } from "@react-navigation/drawer";
 
-import { Screen, LoadingOverlay } from "@components";
+import { Screen, LoadingOverlay, Pagination, SeriesList, SearchBar } from "@components";
+import { useSearchShows, useShows } from "@hooks";
 import { DrawerRootParamList } from "@routes";
 import { spacing } from "@themes";
-
-import { Pagination } from "../components/Pagination/Pagination";
-import { SearchBar } from "../components/SearchBar/SearchBar";
-import { SeriesList } from "../components/SeriesList/SeriesList";
-import { useSearchShows } from "../hooks/useSearchShows";
-import { useShows } from "../hooks/useShows";
 
 type ShowScreenProps = DrawerScreenProps<DrawerRootParamList, "ShowScreen">;
 

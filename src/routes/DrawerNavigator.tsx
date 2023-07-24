@@ -2,7 +2,7 @@ import React from "react";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import { FavoriteScreen, ShowScreen } from "@features";
+import { FavoriteScreen, ShowScreen } from "@screens";
 import { palette } from "@themes";
 
 import { DrawerRootParamList } from "./navigation-types";
