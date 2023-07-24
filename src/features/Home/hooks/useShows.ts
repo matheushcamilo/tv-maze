@@ -40,7 +40,7 @@ function showsReducer(draft: State, action: Action): void {
   }
 }
 
-export function useGetShows({ page }: { page: number }) {
+export function useShows({ page }: { page: number }) {
   const [state, dispatch] = useImmerReducer(showsReducer, initialState);
 
   React.useEffect(() => {

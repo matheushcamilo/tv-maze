@@ -3,7 +3,7 @@ import { MMKV } from "react-native-mmkv";
 
 import { BASE_URL } from "@env";
 
-import { CacheItem, SearchShowResponse, ShowResponse } from "./services-types";
+import { CacheItem, SearchShowResponse, ShowDetails, ShowResponse } from "./services-types";
 
 // 7 days in milliseconds
 const ONE_WEEK_IN_MILLISECONDS = 7 * 24 * 60 * 60 * 1000;
@@ -97,11 +97,23 @@ class ApiService {
     }
   }
 
-  public async getShowDetails(id: number): Promise<any> {
+  public async getShowDetails(id: number): Promise<ShowDetails | null> {
+    const cacheKey = `show_details_${id}`;
+
+    const cachedData = await this.getFromCache(cacheKey);
+    if (cachedData) {
+      return cachedData as ShowDetails;
+    }
+
     try {
-      const response = await this.api.get(`/shows/${id}`, {
+      const response = await this.api.get<ShowDetails>(`/shows/${id}`, {
         cancelToken: this.createCancelToken(),
       });
+
+      // This message will appear only if API call is made
+      console.log("API request made for show id: ", id);
+
+      await this.setToCache(cacheKey, response.data);
 
       return response.data;
     } catch (error) {
@@ -109,7 +121,7 @@ class ApiService {
         console.log(error.message);
       }
 
-      return [];
+      return null;
     }
   }
 

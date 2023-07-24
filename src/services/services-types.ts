@@ -13,7 +13,7 @@ export type ShowResponse = {
   officialSite: string;
   schedule: {
     time: string;
-    days: string[];
+    days: WeekDays[];
   };
   rating: {
     average: number | null;
@@ -70,3 +70,32 @@ export type SearchShowResponse = {
   score: number;
   show: ShowResponse;
 };
+
+export type Episode = {
+  id: number;
+  url: string;
+  name: string;
+  season: number;
+  number: number;
+  type: string;
+  airdate: string;
+  airtime: string;
+  airstamp: string;
+  runtime: number;
+  image: {
+    medium: string;
+    original: string;
+  };
+  summary: string;
+  _links: {
+    self: {
+      href: string;
+    };
+  };
+};
+
+export type ShowDetails = ShowResponse & {
+  episodes: Episode[];
+};
+
+export type WeekDays = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";

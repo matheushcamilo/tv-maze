@@ -10,15 +10,19 @@ import { spacing } from "@themes";
 import { Pagination } from "../components/Pagination/Pagination";
 import { SearchBar } from "../components/SearchBar/SearchBar";
 import { SeriesList } from "../components/SeriesList/SeriesList";
-import { useGetShows } from "../hooks/useGetShows";
 import { useSearchShows } from "../hooks/useSearchShows";
+import { useShowDetails } from "../hooks/useShowDetails";
+import { useShows } from "../hooks/useShows";
 
 type ShowScreenProps = DrawerScreenProps<DrawerRootParamList, "ShowScreen">;
 
 export function ShowScreen({}: ShowScreenProps) {
   const [page, setPage] = React.useState<number>(1);
-  const { shows, loading, error } = useGetShows({ page });
+  const { shows, loading, error } = useShows({ page });
   const { searchResults, searchBar, loading: searchLoading, error: searchError } = useSearchShows();
+
+  const { showDetails } = useShowDetails(100);
+  console.log(JSON.stringify(showDetails, null, 2)); // Log the data
 
   const isSearching = searchBar.value.length > 0;
 

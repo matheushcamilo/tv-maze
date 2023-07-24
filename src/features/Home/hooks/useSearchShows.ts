@@ -51,18 +51,22 @@ export function useSearchShows() {
   React.useEffect(() => {
     if (debouncedValue) {
       dispatch({ type: "FETCH/INIT" });
-      apiService
-        .searchShows(debouncedValue)
-        .then(results => {
+      (async () => {
+        try {
+          const results = await apiService.searchShows(debouncedValue);
           const shows = results.map(result => result.show);
           dispatch({ type: "FETCH/SUCCESS", payload: shows });
-        })
-        .catch(err => {
-          dispatch({ type: "FETCH/FAILURE", payload: err });
-        });
+        } catch (err) {
+          dispatch({ type: "FETCH/FAILURE", payload: err as Error });
+        }
+      })();
     } else {
       dispatch({ type: "FETCH/SUCCESS", payload: [] });
     }
+
+    return () => {
+      apiService.cancelRequest();
+    };
   }, [debouncedValue, dispatch]);
 
   return { ...state, searchBar };
