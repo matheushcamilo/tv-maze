@@ -36,12 +36,16 @@ export function EpisodeDetailsScreen({ route }: EpisodeDetailsScreenProps) {
             <Icon color={palette.grayLighter} name="image" size={200} />
           </View>
         )}
-        <Image
-          source={{ uri: episodeDetails?.image.original }}
-          style={styles.image}
-          resizeMode="contain"
-          onLoad={() => setImageLoaded(true)}
-        />
+        {episodeDetails?.image?.original &&
+          typeof episodeDetails.image.original === "string" &&
+          episodeDetails.image.original.length > 0 && (
+            <Image
+              source={{ uri: episodeDetails.image.original }}
+              style={styles.image}
+              resizeMode="contain"
+              onLoad={() => setImageLoaded(true)}
+            />
+          )}
       </View>
 
       <Text style={styles.title}>{episodeDetails?.name}</Text>
