@@ -36,7 +36,9 @@ function episodesReducer(draft: State, action: Action): void {
       draft.loading = false;
       break;
     default:
-      console.log("useShowEpisodes: No action type found");
+      if (__DEV__) {
+        console.log("useShowEpisodes: No action type found");
+      }
   }
 }
 

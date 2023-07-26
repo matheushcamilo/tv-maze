@@ -36,7 +36,9 @@ function episodeDetailsReducer(draft: State, action: Action): void {
       draft.loading = false;
       break;
     default:
-      console.log("useEpisodeDetails: No action type found");
+      if (__DEV__) {
+        console.log("useEpisodeDetails: No action type found");
+      }
   }
 }
 

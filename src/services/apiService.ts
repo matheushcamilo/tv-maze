@@ -1,10 +1,10 @@
-import axios, { AxiosInstance, CancelTokenSource } from "axios";
-import { MMKV } from "react-native-mmkv";
+import axios, { AxiosInstance, AxiosResponse, CancelTokenSource } from "axios";
 
 import { BASE_URL } from "@env";
+import { cacheStorage } from "@storage";
 
 import {
-  CacheItem,
+  ApiResponseHeaders,
   EpisodeDetailsResponse,
   EpisodeResponse,
   SearchShowResponse,
@@ -12,19 +12,14 @@ import {
   ShowResponse,
 } from "./services-types";
 
-// 7 days in milliseconds
-const ONE_WEEK_IN_MILLISECONDS = 7 * 24 * 60 * 60 * 1000;
-
 class ApiService {
-  private api: AxiosInstance;
+  private readonly api: AxiosInstance;
   private source: CancelTokenSource | undefined;
-  private storage: MMKV;
 
-  constructor() {
+  constructor(baseURL: string) {
     this.api = axios.create({
-      baseURL: BASE_URL,
+      baseURL,
     });
-    this.storage = new MMKV();
   }
 
   private createCancelToken() {
@@ -38,49 +33,29 @@ class ApiService {
     }
   }
 
-  private async getFromCache(key: string) {
-    const data = this.storage.getString(key);
-
-    if (data) {
-      const parsedData = JSON.parse(data) as CacheItem;
-
-      if (Date.now() - parsedData.timestamp < ONE_WEEK_IN_MILLISECONDS) {
-        return parsedData.value;
-      }
-
-      // If the data is older than a week, remove it from the cache
-      this.storage.delete(key);
-    }
-
-    return null;
-  }
-
-  private async setToCache(key: string, data: any) {
-    const timestamp = Date.now();
-    this.storage.set(key, JSON.stringify({ value: data, timestamp }));
-  }
-
   public async getShows(page: number): Promise<ShowResponse[]> {
     const cacheKey = `shows_page_${page}`;
 
-    const cachedData = await this.getFromCache(cacheKey);
+    const cachedData = await cacheStorage.getFromCacheByKey<ShowResponse[]>(cacheKey);
     if (cachedData) {
       return cachedData;
     }
 
     try {
-      const response = await this.api.get(`/shows?page=${page}`, {
+      const response: AxiosResponse<ShowResponse[], ApiResponseHeaders> = await this.api.get(`/shows?page=${page}`, {
         cancelToken: this.createCancelToken(),
       });
 
-      // This message will appear only if API call is made
-      console.log("API request made for page: ", page);
+      if (__DEV__) {
+        // This message will appear only if API call is made
+        console.log("API request made for page: ", page);
+      }
 
-      await this.setToCache(cacheKey, response.data);
+      await cacheStorage.setToCacheByKey({ key: cacheKey, data: response.data });
 
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof Error && __DEV__) {
         console.log(error.message);
       }
 
@@ -90,13 +65,16 @@ class ApiService {
 
   public async searchShows(query: string): Promise<SearchShowResponse[]> {
     try {
-      const response = await this.api.get(`/search/shows?q=${query}`, {
-        cancelToken: this.createCancelToken(),
-      });
+      const response: AxiosResponse<SearchShowResponse[], ApiResponseHeaders> = await this.api.get(
+        `/search/shows?q=${query}`,
+        {
+          cancelToken: this.createCancelToken(),
+        },
+      );
 
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof Error && __DEV__) {
         console.log(error.message);
       }
 
@@ -107,24 +85,26 @@ class ApiService {
   public async getShowDetails(id: number): Promise<ShowDetails | null> {
     const cacheKey = `show_details_${id}`;
 
-    const cachedData = await this.getFromCache(cacheKey);
+    const cachedData = await cacheStorage.getFromCacheByKey<ShowDetails>(cacheKey);
     if (cachedData) {
-      return cachedData as ShowDetails;
+      return cachedData;
     }
 
     try {
-      const response = await this.api.get<ShowDetails>(`/shows/${id}`, {
+      const response: AxiosResponse<ShowDetails, ApiResponseHeaders> = await this.api.get<ShowDetails>(`/shows/${id}`, {
         cancelToken: this.createCancelToken(),
       });
 
-      // This message will appear only if API call is made
-      console.log("API request made for show id: ", id);
+      if (__DEV__) {
+        // This message will appear only if API call is made
+        console.log("API request made for show id: ", id);
+      }
 
-      await this.setToCache(cacheKey, response.data);
+      await cacheStorage.setToCacheByKey({ key: cacheKey, data: response.data });
 
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof Error && __DEV__) {
         console.log(error.message);
       }
 
@@ -135,20 +115,25 @@ class ApiService {
   public async getShowEpisodes(id: number): Promise<EpisodeResponse[]> {
     const cacheKey = `show_episodes_${id}`;
 
-    const cachedData = await this.getFromCache(cacheKey);
+    const cachedData = await cacheStorage.getFromCacheByKey<EpisodeResponse[]>(cacheKey);
     if (cachedData) {
-      return cachedData as EpisodeResponse[];
+      return cachedData;
     }
 
     try {
-      const response = await this.api.get<EpisodeResponse[]>(`/shows/${id}/episodes`, {
-        cancelToken: this.createCancelToken(),
-      });
+      const response: AxiosResponse<EpisodeResponse[], ApiResponseHeaders> = await this.api.get<EpisodeResponse[]>(
+        `/shows/${id}/episodes`,
+        {
+          cancelToken: this.createCancelToken(),
+        },
+      );
 
-      // This message will appear only if API call is made
-      console.log("API request made for show id: ", id);
+      if (__DEV__) {
+        // This message will appear only if API call is made
+        console.log("API request made for show id: ", id);
+      }
 
-      await this.setToCache(cacheKey, response.data);
+      await cacheStorage.setToCacheByKey({ key: cacheKey, data: response.data });
 
       return response.data;
     } catch (error) {
@@ -163,24 +148,27 @@ class ApiService {
   public async getEpisodeDetails(id: number): Promise<EpisodeDetailsResponse | null> {
     const cacheKey = `episode_details_${id}`;
 
-    const cachedData = await this.getFromCache(cacheKey);
+    const cachedData = await cacheStorage.getFromCacheByKey<EpisodeDetailsResponse>(cacheKey);
     if (cachedData) {
-      return cachedData as EpisodeDetailsResponse;
+      return cachedData;
     }
 
     try {
-      const response = await this.api.get<EpisodeDetailsResponse>(`/episodes/${id}`, {
-        cancelToken: this.createCancelToken(),
-      });
+      const response: AxiosResponse<EpisodeDetailsResponse, ApiResponseHeaders> =
+        await this.api.get<EpisodeDetailsResponse>(`/episodes/${id}`, {
+          cancelToken: this.createCancelToken(),
+        });
 
-      // This message will appear only if API call is made
-      console.log("API request made for episode id: ", id);
+      if (__DEV__) {
+        // This message will appear only if API call is made
+        console.log("API request made for episode id: ", id);
+      }
 
-      await this.setToCache(cacheKey, response.data);
+      await cacheStorage.setToCacheByKey({ key: cacheKey, data: response.data });
 
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof Error && __DEV__) {
         console.log(error.message);
       }
 
@@ -189,4 +177,4 @@ class ApiService {
   }
 }
 
-export const apiService = new ApiService();
+export const apiService = new ApiService(BASE_URL);

@@ -61,11 +61,6 @@ export type ShowResponse = {
   };
 };
 
-export interface CacheItem {
-  value: any;
-  timestamp: number;
-}
-
 export type SearchShowResponse = {
   score: number;
   show: ShowResponse;
@@ -157,3 +152,13 @@ export type EpisodeDetailsResponse = {
     };
   };
 };
+
+export interface ApiResponseHeaders {
+  "access-control-allow-origin": string;
+  "cache-control": string;
+  "content-encoding": string;
+  "content-type": string;
+  date: string;
+  server: string;
+  vary: string;
+}

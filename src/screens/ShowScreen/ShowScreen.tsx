@@ -17,7 +17,7 @@ export function ShowScreen({}: ShowScreenProps) {
 
   const isSearching = searchBar.value.length > 0;
 
-  if (error || searchError) {
+  if ((error || searchError) && __DEV__) {
     console.log(error || searchError);
   }
 

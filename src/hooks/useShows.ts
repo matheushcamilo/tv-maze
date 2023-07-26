@@ -36,7 +36,9 @@ function showsReducer(draft: State, action: Action): void {
       draft.loading = false;
       break;
     default:
-      console.log("useGetShows: No action type found");
+      if (__DEV__) {
+        console.log("useGetShows: No action type found");
+      }
   }
 }
 

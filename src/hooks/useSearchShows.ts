@@ -39,7 +39,9 @@ function searchReducer(draft: State, action: Action): void {
       draft.loading = false;
       break;
     default:
-      console.log("useSearchShows: No action type found");
+      if (__DEV__) {
+        console.log("useSearchShows: No action type found");
+      }
   }
 }
 
