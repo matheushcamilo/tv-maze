@@ -1,69 +1,44 @@
-export type ShowResponse = {
-  id: number;
-  url: string;
-  name: string;
-  type: string;
-  language: string;
-  genres: string[];
-  status: string;
-  runtime: number;
-  averageRuntime: number;
-  premiered: string;
-  ended: string;
-  officialSite: string;
-  schedule: {
-    time: string;
-    days: WeekDays[];
-  };
-  rating: {
-    average: number | null;
-  };
-  weight: number;
-  network: {
-    id: number;
-    name: string;
-    country: {
-      name: string;
-      code: string;
-      timezone: string;
-    };
-    officialSite: string | null;
-  };
-  webChannel: {
-    id: number;
-    name: string;
-    country: {
-      name: string;
-      code: string;
-      timezone: string;
-    };
-    officialSite: string;
-  };
-  dvdCountry: null;
-  externals: {
-    tvrage: number;
-    thetvdb: number;
-    imdb: string;
-  };
-  image: {
-    medium: string;
-    original: string;
-  };
-  summary: string;
-  updated: number;
-  _links: {
-    self: {
-      href: string;
-    };
-    previousepisode: {
-      href: string;
-    };
-  };
+type Image = {
+  medium: string;
+  original: string;
 };
 
-export type SearchShowResponse = {
-  score: number;
-  show: ShowResponse;
+type Self = {
+  href: string;
+};
+
+type Links = {
+  self: Self;
+};
+
+type Country = {
+  name: string;
+  code: string;
+  timezone: string;
+};
+
+type Network = {
+  id: number;
+  name: string;
+  country: Country;
+  officialSite: string | null;
+};
+
+type Days = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+
+type Schedule = {
+  time: string;
+  days: Days[];
+};
+
+type Rating = {
+  average: number | null;
+};
+
+type Externals = {
+  tvrage: number | null;
+  thetvdb: number | null;
+  imdb: string | null;
 };
 
 export type Episode = {
@@ -77,83 +52,12 @@ export type Episode = {
   airtime: string;
   airstamp: string;
   runtime: number;
-  image: {
-    medium: string;
-    original: string;
-  };
+  image: Image;
   summary: string;
-  _links: {
-    self: {
-      href: string;
-    };
-  };
+  _links: Links;
 };
 
-export type ShowDetails = ShowResponse & {
-  episodes: Episode[];
-};
-
-export type WeekDays = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
-
-export type EpisodeResponse = {
-  id: number;
-  url: string;
-  name: string;
-  season: number;
-  number: number;
-  type: string;
-  airdate: string;
-  airtime: string;
-  airstamp: string;
-  runtime: number;
-  rating: {
-    average: number;
-  };
-  image: {
-    medium: string;
-    original: string;
-  };
-  summary: string;
-  _links: {
-    self: {
-      href: string;
-    };
-    show: {
-      href: string;
-    };
-  };
-};
-
-export type EpisodeDetailsResponse = {
-  id: number;
-  url: string;
-  name: string;
-  season: number;
-  number: number;
-  type: string;
-  airdate: string;
-  airtime: string;
-  airstamp: string;
-  runtime: number;
-  rating: {
-    average: number;
-  };
-  image: {
-    medium: string;
-    original: string;
-  };
-  summary: string;
-  _links: {
-    self: {
-      href: string;
-    };
-    show: {
-      href: string;
-    };
-  };
-};
-
-export interface ApiResponseHeaders {
+export type ResponseHeaders = {
   "access-control-allow-origin": string;
   "cache-control": string;
   "content-encoding": string;
@@ -161,7 +65,51 @@ export interface ApiResponseHeaders {
   date: string;
   server: string;
   vary: string;
-}
+};
+
+export type SearchShowsResult = {
+  score: number;
+  show: {
+    id: number;
+    url: string;
+    name: string;
+    type: string;
+    language: string;
+    genres: string[];
+    status: string;
+    runtime: number;
+    averageRuntime: number;
+    premiered: string;
+    ended: string;
+    officialSite: string | null;
+    schedule: Schedule;
+    rating: Rating;
+    weight: number;
+    network: Network | null;
+    webChannel: Network | null;
+    dvdCountry: string | null;
+    externals: Externals;
+    image: Image | null;
+    summary: string | null;
+    updated: number;
+    _links: Links;
+  };
+};
+
+export type Season = {
+  id: number;
+  url: string;
+  number: number;
+  name: string;
+  episodeOrder: number;
+  premiereDate: string;
+  endDate: string;
+  network: Network | null;
+  webChannel: Network | null;
+  image: Image | null;
+  summary: string;
+  _links: Links;
+};
 
 export type Show = {
   id: number;
@@ -176,52 +124,15 @@ export type Show = {
   premiered: string;
   ended: string;
   officialSite: string | null;
-  schedule: {
-    time: string;
-    days: string[];
-  };
-  rating: {
-    average: number | null;
-  };
+  schedule: Schedule;
+  rating: Rating;
   weight: number;
-  network: {
-    id: number;
-    name: string;
-    country: {
-      name: string;
-      code: string;
-      timezone: string;
-    };
-    officialSite: string | null;
-  };
-  webChannel: {
-    id: number;
-    name: string;
-    country: {
-      name: string;
-      code: string;
-      timezone: string;
-    };
-    officialSite: string | null;
-  };
-  dvdCountry: null | string;
-  externals: {
-    tvrage: number | null;
-    thetvdb: number | null;
-    imdb: string;
-  };
-  image: {
-    medium: string;
-    original: string;
-  };
+  network: Network | null;
+  webChannel: Network | null;
+  dvdCountry: string | null;
+  externals: Externals;
+  image: Image | null;
   summary: string;
   updated: number;
-  _links: {
-    self: {
-      href: string;
-    };
-    previousepisode: {
-      href: string;
-    };
-  };
+  _links: Links;
 };
