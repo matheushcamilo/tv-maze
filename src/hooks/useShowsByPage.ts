@@ -21,7 +21,7 @@ const initialState: State = {
   error: null,
 };
 
-function showsReducer(draft: State, action: Action): void {
+function showsByPageReducer(draft: State, action: Action): void {
   switch (action.type) {
     case "FETCH/INIT":
       draft.loading = true;
@@ -42,14 +42,14 @@ function showsReducer(draft: State, action: Action): void {
   }
 }
 
-export function useShows({ page }: { page: number }) {
-  const [state, dispatch] = useImmerReducer(showsReducer, initialState);
+export function useShowsByPage({ page }: { page: number }) {
+  const [state, dispatch] = useImmerReducer(showsByPageReducer, initialState);
 
   React.useEffect(() => {
     (async () => {
       dispatch({ type: "FETCH/INIT" });
       try {
-        const showsData = await apiService.getShows(page);
+        const showsData = await apiService.getShowsByPage(page);
         dispatch({ type: "FETCH/SUCCESS", payload: showsData });
       } catch (fetchError) {
         dispatch({ type: "FETCH/FAILURE", payload: fetchError as Error });

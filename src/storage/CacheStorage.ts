@@ -10,7 +10,7 @@ class CacheStorage extends Storage {
     super(id, encryptionKey);
   }
 
-  public async getFromCacheByKey<T>(key: string): Promise<T | null> {
+  public getFromCacheByKey<T>(key: string): T | null {
     const data = this.getData<CacheItem>(key);
 
     if (data) {
@@ -25,11 +25,15 @@ class CacheStorage extends Storage {
     return null;
   }
 
-  public async setToCacheByKey<T>({ key, data }: { key: string; data: T }): Promise<void> {
+  public setToCacheByKey<T>({ key, data }: { key: string; data: T }): void {
     this.setData({ key, data: { value: data, timestamp: Date.now() } });
   }
 
-  public async clearAllCache(): Promise<void> {
+  public getAllCacheKeys(): string[] {
+    return this.getAllKeys();
+  }
+
+  public deleteAllCache(): void {
     this.clearAllData();
   }
 }

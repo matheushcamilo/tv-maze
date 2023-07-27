@@ -7,7 +7,7 @@ import { Icon } from "@components";
 import { palette, spacing } from "@themes";
 
 export interface SeriesItemProps {
-  id: number; // add id prop
+  id: number;
   name: string;
   image: string;
   rating: number | null;

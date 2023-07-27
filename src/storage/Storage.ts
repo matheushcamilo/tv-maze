@@ -14,14 +14,18 @@ export abstract class Storage {
     this.storage.set(key, JSON.stringify(data));
   }
 
-  protected getData<T>(key: string): T | undefined {
+  protected getData<T>(key: string): T | null {
     const storedData = this.storage.getString(key);
 
     if (storedData === undefined) {
-      return undefined;
+      return null;
     }
 
     return JSON.parse(storedData) as T;
+  }
+
+  protected getAllKeys(): string[] {
+    return this.storage.getAllKeys();
   }
 
   protected deleteData(key: string): void {
