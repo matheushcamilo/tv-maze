@@ -14,26 +14,26 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Screen } from "@components";
 import { useShowEpisodes } from "@hooks";
 import { StackRootParamList } from "@routes";
-import { EpisodeResponse } from "@services";
+import { Episode } from "@services";
 import { palette, spacing } from "@themes";
 
 type EpisodesListScreenProps = NativeStackScreenProps<StackRootParamList, "EpisodesListScreen">;
 
 type SectionHeader = (info: {
   section: SectionListData<
-    EpisodeResponse,
+    Episode,
     {
       title: string;
-      data: EpisodeResponse[];
+      data: Episode[];
     }
   >;
 }) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 
 type RenderItem = SectionListRenderItem<
-  EpisodeResponse,
+  Episode,
   {
     title: string;
-    data: EpisodeResponse[];
+    data: Episode[];
   }
 >;
 

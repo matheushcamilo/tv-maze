@@ -79,7 +79,7 @@ export function ShowDetailsScreen({ route }: ShowDetailsScreenProps) {
           </View>
         )}
         <Image
-          source={{ uri: showDetails.image.original }}
+          source={{ uri: showDetails.image?.original }}
           style={styles.image}
           resizeMode="contain"
           onLoad={() => setImageLoaded(true)}

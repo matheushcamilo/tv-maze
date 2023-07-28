@@ -2,17 +2,17 @@ import React from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import { EpisodeDetailsResponse, apiService } from "@services";
+import { Episode, api } from "@services";
 
 interface State {
-  episodeDetails: EpisodeDetailsResponse | null;
+  episodeDetails: Episode | null;
   loading: boolean;
   error: Error | null;
 }
 
 type Action =
   | { type: "FETCH/INIT" }
-  | { type: "FETCH/SUCCESS"; payload: EpisodeDetailsResponse }
+  | { type: "FETCH/SUCCESS"; payload: Episode }
   | { type: "FETCH/FAILURE"; payload: Error };
 
 const initialState: State = {
@@ -50,23 +50,24 @@ export function useEpisodeDetails(id: number | undefined) {
       return;
     }
 
+    const requestId = api.generateRequestId();
     dispatch({ type: "FETCH/INIT" });
 
     (async () => {
       try {
-        const episodeDetails = await apiService.getEpisodeDetails(id);
-        if (episodeDetails) {
-          dispatch({ type: "FETCH/SUCCESS", payload: episodeDetails });
-        } else {
+        const episodeDetails = await api.getEpisodeById({ episodeId: id, requestId });
+        if (episodeDetails === null) {
           throw new Error("Episode details not found.");
         }
+
+        dispatch({ type: "FETCH/SUCCESS", payload: episodeDetails });
       } catch (err) {
         dispatch({ type: "FETCH/FAILURE", payload: err as Error });
       }
     })();
 
     return () => {
-      apiService.cancelRequest();
+      api.cancelRequest(requestId);
     };
   }, [id, dispatch]);
 

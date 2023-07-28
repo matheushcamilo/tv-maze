@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, CancelTokenSource } from "axios";
-import { v4 as uuid } from "uuid";
+import uuid from "react-native-uuid";
 
 import { BASE_URL } from "@env";
 
@@ -20,19 +20,23 @@ class ApiService {
   private createCancelTokenSource(requestId: string): CancelTokenSource {
     const source = axios.CancelToken.source();
     this.cancelTokenSources.set(requestId, source);
+
     return source;
   }
 
   public cancelRequest(requestId: string): void {
     const source = this.cancelTokenSources.get(requestId);
-    if (source) {
-      source.cancel("Operation canceled by the user.");
-      this.cancelTokenSources.delete(requestId);
+
+    if (!source) {
+      return;
     }
+
+    source.cancel("Operation canceled by the user.");
+    this.cancelTokenSources.delete(requestId);
   }
 
   public generateRequestId(): string {
-    return uuid();
+    return uuid.v4().toString();
   }
 
   private async get<T>({

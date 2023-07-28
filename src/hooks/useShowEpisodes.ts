@@ -2,17 +2,17 @@ import React from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import { EpisodeResponse, apiService } from "@services";
+import { Episode, api } from "@services";
 
 interface State {
-  episodes: EpisodeResponse[];
+  episodes: Episode[];
   loading: boolean;
   error: Error | null;
 }
 
 type Action =
   | { type: "FETCH/INIT" }
-  | { type: "FETCH/SUCCESS"; payload: EpisodeResponse[] }
+  | { type: "FETCH/SUCCESS"; payload: Episode[] }
   | { type: "FETCH/FAILURE"; payload: Error };
 
 const initialState: State = {
@@ -43,8 +43,8 @@ function episodesReducer(draft: State, action: Action): void {
 }
 
 function getEpisodesSelectors(state: State) {
-  function groupEpisodesBySeason(): { title: string; data: EpisodeResponse[] }[] {
-    const episodesBySeason: { [key: number]: EpisodeResponse[] } = {};
+  function groupEpisodesBySeason(): { title: string; data: Episode[] }[] {
+    const episodesBySeason: { [key: number]: Episode[] } = {};
     state.episodes.forEach(episode => {
       if (!episodesBySeason[episode.season]) {
         episodesBySeason[episode.season] = [];
@@ -70,11 +70,16 @@ export function useShowEpisodes(id: number | undefined) {
       return;
     }
 
+    const requestId = api.generateRequestId();
     dispatch({ type: "FETCH/INIT" });
 
     (async () => {
       try {
-        const episodes = await apiService.getShowEpisodes(id);
+        const episodes = await api.getEpisodesBySeason({ seasonId: id, requestId });
+        if (episodes === null) {
+          throw new Error("Fetching episodes failed.");
+        }
+
         dispatch({ type: "FETCH/SUCCESS", payload: episodes });
       } catch (err) {
         dispatch({ type: "FETCH/FAILURE", payload: err as Error });
@@ -82,7 +87,7 @@ export function useShowEpisodes(id: number | undefined) {
     })();
 
     return () => {
-      apiService.cancelRequest();
+      api.cancelRequest(requestId);
     };
   }, [id, dispatch]);
 

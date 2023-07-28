@@ -2,17 +2,17 @@ import React from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import { ShowResponse, apiService } from "@services";
+import { Show, api } from "@services";
 
 interface State {
-  shows: ShowResponse[];
+  shows: Show[];
   loading: boolean;
   error: Error | null;
 }
 
 type Action =
   | { type: "FETCH/INIT" }
-  | { type: "FETCH/SUCCESS"; payload: ShowResponse[] }
+  | { type: "FETCH/SUCCESS"; payload: Show[] }
   | { type: "FETCH/FAILURE"; payload: Error };
 
 const initialState: State = {
@@ -46,18 +46,24 @@ export function useShowsByPage({ page }: { page: number }) {
   const [state, dispatch] = useImmerReducer(showsByPageReducer, initialState);
 
   React.useEffect(() => {
+    const requestId = api.generateRequestId();
+
     (async () => {
       dispatch({ type: "FETCH/INIT" });
       try {
-        const showsData = await apiService.getShowsByPage(page);
+        const showsData = await api.getShowsByPage({ page, requestId });
+        if (showsData === null) {
+          throw new Error("Fetching shows failed.");
+        }
+
         dispatch({ type: "FETCH/SUCCESS", payload: showsData });
-      } catch (fetchError) {
-        dispatch({ type: "FETCH/FAILURE", payload: fetchError as Error });
+      } catch (err) {
+        dispatch({ type: "FETCH/FAILURE", payload: err as Error });
       }
     })();
 
     return () => {
-      apiService.cancelRequest();
+      api.cancelRequest(requestId);
     };
   }, [dispatch, page]);
 

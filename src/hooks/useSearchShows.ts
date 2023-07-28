@@ -3,19 +3,19 @@ import React from "react";
 import { useImmerReducer } from "use-immer";
 
 import { useDebounce } from "@hooks";
-import { ShowResponse, apiService } from "@services";
+import { Show, api } from "@services";
 
 import { useSearchBar } from "./useSearchBar";
 
 interface State {
-  searchResults: ShowResponse[];
+  searchResults: Show[];
   loading: boolean;
   error: Error | null;
 }
 
 type Action =
   | { type: "FETCH/INIT" }
-  | { type: "FETCH/SUCCESS"; payload: ShowResponse[] }
+  | { type: "FETCH/SUCCESS"; payload: Show[] }
   | { type: "FETCH/FAILURE"; payload: Error };
 
 const initialState: State = {
@@ -51,24 +51,25 @@ export function useSearchShows() {
   const [state, dispatch] = useImmerReducer(searchReducer, initialState);
 
   React.useEffect(() => {
-    if (debouncedValue) {
-      dispatch({ type: "FETCH/INIT" });
-
-      (async () => {
-        try {
-          const results = await apiService.searchShows(debouncedValue);
-          const shows = results.map(result => result.show);
-          dispatch({ type: "FETCH/SUCCESS", payload: shows });
-        } catch (err) {
-          dispatch({ type: "FETCH/FAILURE", payload: err as Error });
-        }
-      })();
-    } else {
-      dispatch({ type: "FETCH/SUCCESS", payload: [] });
+    if (!debouncedValue) {
+      return dispatch({ type: "FETCH/SUCCESS", payload: [] });
     }
 
+    const requestId = api.generateRequestId();
+    dispatch({ type: "FETCH/INIT" });
+
+    (async () => {
+      try {
+        const results = await api.searchShowsByName({ name: debouncedValue, requestId });
+        const shows = results ? results.map(result => result.show) : [];
+        dispatch({ type: "FETCH/SUCCESS", payload: shows });
+      } catch (err) {
+        dispatch({ type: "FETCH/FAILURE", payload: err as Error });
+      }
+    })();
+
     return () => {
-      apiService.cancelRequest();
+      api.cancelRequest(requestId);
     };
   }, [debouncedValue, dispatch]);
 

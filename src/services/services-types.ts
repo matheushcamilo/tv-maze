@@ -132,7 +132,7 @@ export type Show = {
   dvdCountry: string | null;
   externals: Externals;
   image: Image | null;
-  summary: string;
+  summary: string | null;
   updated: number;
   _links: Links;
 };

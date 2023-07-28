@@ -2,7 +2,11 @@ import React from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import { ShowDetails, apiService } from "@services";
+import { Show, Episode, api } from "@services";
+
+export type ShowDetails = Show & {
+  episodes: Episode[];
+};
 
 interface State {
   showDetails: ShowDetails | null;
@@ -50,21 +54,38 @@ export function useShowDetails(id: number | undefined) {
       return;
     }
 
+    const requestIdShow = api.generateRequestId();
+    const requestIdSeasons = api.generateRequestId();
+
     dispatch({ type: "FETCH/INIT" });
 
     (async () => {
       try {
-        const details = await apiService.getShowDetails(id);
-        if (details) {
-          dispatch({ type: "FETCH/SUCCESS", payload: details });
+        const showPromise = api.getShowById({ showId: id, requestId: requestIdShow });
+        const seasonsPromise = api.getSeasonsByShow({ showId: id, requestId: requestIdSeasons });
+        const [show, seasons] = await Promise.all([showPromise, seasonsPromise]);
+
+        if (!show || !seasons) {
+          throw new Error("Show or seasons not fetched");
         }
-      } catch (fetchError) {
-        dispatch({ type: "FETCH/FAILURE", payload: fetchError as Error });
+
+        const episodePromises = seasons.map(season =>
+          api.getEpisodesBySeason({ seasonId: season.id, requestId: api.generateRequestId() }),
+        );
+        const episodeResults = await Promise.all(episodePromises);
+
+        const episodes = episodeResults.filter(Boolean).flat();
+
+        const details: ShowDetails = { ...show, episodes };
+        dispatch({ type: "FETCH/SUCCESS", payload: details });
+      } catch (err) {
+        dispatch({ type: "FETCH/FAILURE", payload: err as Error });
       }
     })();
 
     return () => {
-      apiService.cancelRequest();
+      api.cancelRequest(requestIdShow);
+      api.cancelRequest(requestIdSeasons);
     };
   }, [id, dispatch]);
 
