@@ -1,2 +1,2 @@
-export * from "./ApiService";
+export * from "./apiService";
 export * from "./services-types";
