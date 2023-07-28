@@ -60,7 +60,7 @@ export function EpisodesListScreen({ route, navigation }: EpisodesListScreenProp
     return (
       <TouchableOpacity style={styles.itemContainer} onPress={navigateToEpisodeDetailsScreen}>
         <Text style={[styles.item, styles.episode]} accessibilityRole="text">
-          {`Episode ${item.number.toString().padStart(2, "0")}`}
+          {`Episode ${item?.number?.toString().padStart(2, "0")}`}
         </Text>
         <Text style={styles.item} numberOfLines={1} ellipsizeMode="tail" accessibilityRole="text">
           {item.name}

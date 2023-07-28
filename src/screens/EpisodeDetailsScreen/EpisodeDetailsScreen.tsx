@@ -12,11 +12,11 @@ import { palette, spacing } from "@themes";
 type EpisodeDetailsScreenProps = NativeStackScreenProps<StackRootParamList, "EpisodeDetailsScreen">;
 
 export function EpisodeDetailsScreen({ route }: EpisodeDetailsScreenProps) {
-  const { episodeDetails, loading } = useEpisodeDetails(route.params?.id);
+  const { width } = useWindowDimensions();
   const [imageLoaded, setImageLoaded] = React.useState(false);
+  const { episodeDetails, loading } = useEpisodeDetails(route.params?.id);
   const systemFonts = React.useMemo(() => [...defaultSystemFonts, "Satoshi-Medium"], []);
-  const windowWidth = useWindowDimensions().width;
-  const contentWidth = React.useMemo(() => windowWidth - spacing.s16 * 2, [windowWidth]);
+  const contentWidth = React.useMemo(() => width - spacing.s16 * 2, [width]);
 
   const htmlProps = React.useMemo(() => {
     return {
@@ -31,21 +31,21 @@ export function EpisodeDetailsScreen({ route }: EpisodeDetailsScreenProps) {
   return (
     <Screen canGoBack scrollable>
       <View style={styles.imageContainer}>
-        {!imageLoaded && (
+        {!imageLoaded ? (
           <View style={styles.iconContainer}>
             <Icon color={palette.grayLighter} name="image" size={200} />
           </View>
-        )}
+        ) : null}
         {episodeDetails?.image?.original &&
-          typeof episodeDetails.image.original === "string" &&
-          episodeDetails.image.original.length > 0 && (
-            <Image
-              source={{ uri: episodeDetails.image.original }}
-              style={styles.image}
-              resizeMode="contain"
-              onLoad={() => setImageLoaded(true)}
-            />
-          )}
+        typeof episodeDetails.image.original === "string" &&
+        episodeDetails.image.original.length > 0 ? (
+          <Image
+            source={{ uri: episodeDetails.image.original }}
+            style={styles.image}
+            resizeMode="contain"
+            onLoad={() => setImageLoaded(true)}
+          />
+        ) : null}
       </View>
 
       <Text style={styles.title}>{episodeDetails?.name}</Text>
@@ -56,7 +56,13 @@ export function EpisodeDetailsScreen({ route }: EpisodeDetailsScreenProps) {
       </Text>
 
       <Text style={styles.summary}>Summary</Text>
-      {episodeDetails ? <RenderHTML {...htmlProps} /> : null}
+      {episodeDetails?.summary ? (
+        <RenderHTML {...htmlProps} />
+      ) : (
+        <Text style={styles.html} accessibilityRole="text">
+          No content.
+        </Text>
+      )}
 
       <LoadingOverlay visible={loading} />
     </Screen>
