@@ -71,4 +71,8 @@ export abstract class Storage {
       listener(key);
     }
   }
+
+  protected normalizeKey(key: string): string {
+    return key.trim().toLowerCase();
+  }
 }

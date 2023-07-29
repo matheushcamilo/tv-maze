@@ -63,7 +63,7 @@ export function useSearchShows() {
 
       // Try to get data from storage
       let shows: Show[] = [];
-      const idsFromStorage = searchResultsStorage.getSearch(debouncedValue);
+      const idsFromStorage = searchResultsStorage.getSearchByName(debouncedValue);
       if (idsFromStorage !== null) {
         shows = idsFromStorage.map(id => showsStorage.getShow(id)).filter(show => show !== null) as Show[];
       } else {

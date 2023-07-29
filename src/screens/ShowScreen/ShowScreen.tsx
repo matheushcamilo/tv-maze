@@ -12,7 +12,7 @@ type ShowScreenProps = DrawerScreenProps<DrawerRootParamList, "ShowScreen">;
 
 export function ShowScreen({}: ShowScreenProps) {
   const [page, setPage] = React.useState<number>(1);
-  const { shows, loading, error } = usePagination({ page });
+  const { shows, loading, error } = usePagination(page);
   const { searchResults, searchBar, loading: searchLoading, error: searchError } = useSearchShows();
 
   const isSearching = searchBar.value.length > 0;

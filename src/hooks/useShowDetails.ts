@@ -57,9 +57,9 @@ export function useShowDetails(id: number | undefined) {
     const requestIdShow = api.generateRequestId();
     const requestIdSeasons = api.generateRequestId();
 
-    dispatch({ type: "FETCH/INIT" });
-
     (async () => {
+      dispatch({ type: "FETCH/INIT" });
+
       try {
         const showPromise = api.getShowById({ showId: id, requestId: requestIdShow });
         const seasonsPromise = api.getSeasonsByShow({ showId: id, requestId: requestIdSeasons });

@@ -43,7 +43,7 @@ function paginationReducer(draft: State, action: Action): void {
   }
 }
 
-export function usePagination({ page }: { page: number }) {
+export function usePagination(page: number) {
   const [state, dispatch] = useImmerReducer(paginationReducer, initialState);
 
   React.useEffect(() => {
@@ -58,6 +58,7 @@ export function usePagination({ page }: { page: number }) {
         if (idsByPage === null) {
           // Fetch data from API
           showsData = await api.getShowsByPage({ page, requestId });
+
           if (showsData === null) {
             throw new Error("Fetching shows failed.");
           }
