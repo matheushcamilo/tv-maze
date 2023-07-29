@@ -12,7 +12,7 @@ export abstract class Storage {
   protected readonly storage: MMKV;
   private listeners: Listener[] = [];
 
-  constructor({ id, encryptionKey }: StorageConstructor) {
+  constructor(id: string, encryptionKey: string) {
     this.storage = new MMKV({
       id,
       encryptionKey,

@@ -5,4 +5,4 @@ export * from "./useSafeArea";
 export * from "./useSearchShows";
 export * from "./useShowDetails";
 export * from "./useShowEpisodes";
-export * from "./useShowsByPage";
+export * from "./usePagination";

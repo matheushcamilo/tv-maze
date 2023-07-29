@@ -1,11 +1,11 @@
 import { MMKV_SHOW_ENCRYPTION_KEY, MMKV_SHOW_ID } from "@env";
 import { Show } from "@services"; // Importe o tipo Show da API
 
-import { Storage, StorageConstructor } from "./Storage";
+import { Storage } from "./Storage";
 
 class ShowsStorage extends Storage {
-  constructor({ id, encryptionKey }: StorageConstructor) {
-    super({ id, encryptionKey });
+  constructor(id: string, encryptionKey: string) {
+    super(id, encryptionKey);
   }
 
   public addShow(show: Show): void {
@@ -27,4 +27,4 @@ class ShowsStorage extends Storage {
   }
 }
 
-export const showsStorage = new ShowsStorage({ id: MMKV_SHOW_ID, encryptionKey: MMKV_SHOW_ENCRYPTION_KEY });
+export const showsStorage = new ShowsStorage(MMKV_SHOW_ID, MMKV_SHOW_ENCRYPTION_KEY);
