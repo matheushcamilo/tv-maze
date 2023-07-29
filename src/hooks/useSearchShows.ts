@@ -4,6 +4,7 @@ import { useImmerReducer } from "use-immer";
 
 import { useDebounce } from "@hooks";
 import { Show, api } from "@services";
+import { searchResultsStorage, showsStorage } from "@storage";
 
 import { useSearchBar } from "./useSearchBar";
 
@@ -56,16 +57,31 @@ export function useSearchShows() {
     }
 
     const requestId = api.generateRequestId();
-    dispatch({ type: "FETCH/INIT" });
 
     (async () => {
-      try {
-        const results = await api.searchShowsByName({ name: debouncedValue, requestId });
-        const shows = results ? results.map(result => result.show) : [];
-        dispatch({ type: "FETCH/SUCCESS", payload: shows });
-      } catch (err) {
-        dispatch({ type: "FETCH/FAILURE", payload: err as Error });
+      dispatch({ type: "FETCH/INIT" });
+
+      // Try to get data from storage
+      let shows: Show[] = [];
+      const idsFromStorage = searchResultsStorage.getSearch(debouncedValue);
+      if (idsFromStorage !== null) {
+        shows = idsFromStorage.map(id => showsStorage.getShow(id)).filter(show => show !== null) as Show[];
+      } else {
+        // If data is not in the storage, fetch it from the API
+        try {
+          const results = await api.searchShowsByName({ name: debouncedValue, requestId });
+          shows = results ? results.map(result => result.show) : [];
+
+          // Save the ids of the fetched data in the storage
+          const ids = shows.map(show => show.id);
+          searchResultsStorage.addSearch(debouncedValue, ids);
+          shows.forEach(show => showsStorage.addShow(show));
+        } catch (err) {
+          return dispatch({ type: "FETCH/FAILURE", payload: err as Error });
+        }
       }
+
+      dispatch({ type: "FETCH/SUCCESS", payload: shows });
     })();
 
     return () => {

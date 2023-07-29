@@ -70,7 +70,7 @@ export function usePagination({ page }: { page: number }) {
           showsData = idsByPage.map(id => showsStorage.getShow(id)).filter(show => show !== null) as Show[];
         }
 
-        dispatch({ type: "FETCH/SUCCESS", payload: showsData });
+        dispatch({ type: "FETCH/SUCCESS", payload: showsData.slice(0, 10) });
       } catch (err) {
         dispatch({ type: "FETCH/FAILURE", payload: err as Error });
       }

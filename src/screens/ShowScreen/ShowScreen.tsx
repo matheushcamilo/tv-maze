@@ -24,7 +24,8 @@ export function ShowScreen({}: ShowScreenProps) {
   return (
     <Screen style={styles.container}>
       <SearchBar {...searchBar} />
-      <SeriesList shows={isSearching ? searchResults.slice(0, 10) : shows.slice(0, 10)} />
+      <SeriesList shows={isSearching ? searchResults : shows} />
+      {/* <SeriesList shows={isSearching ? searchResults.slice(0, 10) : shows.slice(0, 10)} /> */}
       <Pagination page={page} onChangePage={setPage} disabled={isSearching} />
       {loading || searchLoading ? <LoadingOverlay visible={loading || searchLoading} /> : null}
     </Screen>
