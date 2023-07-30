@@ -8,16 +8,16 @@ class PageStorage extends Storage {
   }
 
   public addPage(page: number, ids: number[]): void {
-    this.set(page.toString(), ids);
+    this.set(page, ids);
   }
 
   public getIdsByPage(page: number): number[] | null {
-    const data = this.get<{ ids: number[] }>(page.toString());
-    return data ? data.ids : null;
+    const data = this.get<number[]>(page);
+    return data || null;
   }
 
   public removePage(page: number): void {
-    this.delete(page.toString());
+    this.delete(page);
   }
 }
 

@@ -19,7 +19,8 @@ export abstract class Storage {
     });
   }
 
-  protected set(key: string, data: unknown): void {
+  protected set(_key: unknown, data: unknown): void {
+    const key = this.normalizeKey(_key);
     let json: string;
     try {
       json = stringify(data);
@@ -35,7 +36,8 @@ export abstract class Storage {
     this.notifyListeners(key);
   }
 
-  protected get<T>(key: string): T | null {
+  protected get<T>(_key: unknown): T | null {
+    const key = this.normalizeKey(_key);
     const storedData = this.storage.getString(key);
     if (storedData === undefined) {
       return null;
@@ -48,7 +50,8 @@ export abstract class Storage {
     return this.storage.getAllKeys();
   }
 
-  protected delete(key: string): void {
+  protected delete(_key: unknown): void {
+    const key = this.normalizeKey(_key);
     this.storage.delete(key);
     this.notifyListeners(key);
   }
@@ -72,7 +75,7 @@ export abstract class Storage {
     }
   }
 
-  protected normalizeKey(key: string): string {
-    return key.trim().toLowerCase();
+  protected normalizeKey(key: unknown): string {
+    return String(key).trim().toLowerCase();
   }
 }

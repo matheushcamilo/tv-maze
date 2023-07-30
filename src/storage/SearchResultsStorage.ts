@@ -8,18 +8,15 @@ class SearchResultsStorage extends Storage {
   }
 
   public addSearch(name: string, ids: number[]): void {
-    const key = this.normalizeKey(name);
-    this.set(key, ids);
+    this.set(name, ids);
   }
 
   public getSearchByName(name: string): number[] | null {
-    const key = this.normalizeKey(name);
-    return this.get<number[]>(key);
+    return this.get<number[]>(name);
   }
 
   public removeSearch(name: string): void {
-    const key = this.normalizeKey(name);
-    this.delete(key);
+    this.delete(name);
   }
 }
 

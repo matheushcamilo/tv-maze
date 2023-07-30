@@ -8,15 +8,15 @@ class EpisodeStorage extends Storage {
   }
 
   public addEpisodes(seasonId: number, episodes: number[]): void {
-    this.set(seasonId.toString(), episodes);
+    this.set(seasonId, episodes);
   }
 
   public getEpisodesBySeasonId(seasonId: number): number[] | null {
-    return this.get<number[]>(seasonId.toString());
+    return this.get<number[]>(seasonId);
   }
 
   public removeEpisodes(seasonId: number): void {
-    this.delete(seasonId.toString());
+    this.delete(seasonId);
   }
 }
 

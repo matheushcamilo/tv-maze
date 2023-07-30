@@ -9,15 +9,15 @@ class ShowStorage extends Storage {
   }
 
   public addShow(show: Show): void {
-    this.set(show.id.toString(), show);
+    this.set(show.id, show);
   }
 
   public getShowById(id: number): Show | null {
-    return this.get<Show>(id.toString());
+    return this.get<Show>(id);
   }
 
   public removeShowById(id: number): void {
-    this.delete(id.toString());
+    this.delete(id);
   }
 }
 

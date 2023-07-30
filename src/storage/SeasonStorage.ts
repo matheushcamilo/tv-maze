@@ -8,15 +8,15 @@ class SeasonStorage extends Storage {
   }
 
   public addSeasons(showId: number, seasons: number[]): void {
-    this.set(showId.toString(), seasons);
+    this.set(showId, seasons);
   }
 
   public getSeasonsByShowId(showId: number): number[] | null {
-    return this.get<number[]>(showId.toString());
+    return this.get<number[]>(showId);
   }
 
   public removeSeasons(showId: number): void {
-    this.delete(showId.toString());
+    this.delete(showId);
   }
 }
 
