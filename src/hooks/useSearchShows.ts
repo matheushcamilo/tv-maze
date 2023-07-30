@@ -4,7 +4,7 @@ import { useImmerReducer } from "use-immer";
 
 import { useDebounce } from "@hooks";
 import { Show, api } from "@services";
-import { searchResultsStorage, showsStorage } from "@storage";
+import { searchResultsStorage, showStorage } from "@storage";
 
 import { useSearchBar } from "./useSearchBar";
 
@@ -65,7 +65,7 @@ export function useSearchShows() {
       let shows: Show[] = [];
       const idsFromStorage = searchResultsStorage.getSearchByName(debouncedValue);
       if (idsFromStorage !== null) {
-        shows = idsFromStorage.map(id => showsStorage.getShow(id)).filter(show => show !== null) as Show[];
+        shows = idsFromStorage.map(id => showStorage.getShowById(id)).filter(show => show !== null) as Show[];
       } else {
         // If data is not in the storage, fetch it from the API
         try {
@@ -75,7 +75,7 @@ export function useSearchShows() {
           // Save the ids of the fetched data in the storage
           const ids = shows.map(show => show.id);
           searchResultsStorage.addSearch(debouncedValue, ids);
-          shows.forEach(show => showsStorage.addShow(show));
+          shows.forEach(show => showStorage.addShow(show));
         } catch (err) {
           return dispatch({ type: "FETCH/FAILURE", payload: err as Error });
         }

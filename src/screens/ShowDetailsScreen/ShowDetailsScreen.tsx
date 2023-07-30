@@ -113,7 +113,7 @@ export function ShowDetailsScreen({ route }: ShowDetailsScreenProps) {
       <Text style={styles.subtitle} accessibilityRole="text">
         Summary
       </Text>
-      {showDetails.summary?.length > 0 ? (
+      {showDetails?.summary && showDetails.summary?.length > 0 ? (
         <RenderHTML {...htmlProps} />
       ) : (
         <Text style={styles.subtitleInfo} accessibilityRole="text">

@@ -3,7 +3,7 @@ import React from "react";
 import { useImmerReducer } from "use-immer";
 
 import { Show, api } from "@services";
-import { pageStorage, showsStorage } from "@storage";
+import { pageStorage, showStorage } from "@storage";
 
 interface State {
   shows: Show[];
@@ -65,10 +65,10 @@ export function usePagination(page: number) {
           // Save the fetched data to storage
           const ids = showsData.map(show => show.id);
           pageStorage.addPage(page, ids);
-          showsData.forEach(show => showsStorage.addShow(show));
+          showsData.forEach(show => showStorage.addShow(show));
         } else {
           // Retrieve data from storage
-          showsData = idsByPage.map(id => showsStorage.getShow(id)).filter(show => show !== null) as Show[];
+          showsData = idsByPage.map(id => showStorage.getShowById(id)).filter(show => show !== null) as Show[];
         }
 
         dispatch({ type: "FETCH/SUCCESS", payload: showsData.slice(0, 10) });
