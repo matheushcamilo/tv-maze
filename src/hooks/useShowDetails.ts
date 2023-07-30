@@ -56,11 +56,10 @@ export function useShowDetails(id: number | undefined) {
 
     const requestIdShow = api.generateRequestId();
     const requestIdSeasons = api.generateRequestId();
-    const requestIdsEpisodes: string[] = [];
+
+    dispatch({ type: "FETCH/INIT" });
 
     (async () => {
-      dispatch({ type: "FETCH/INIT" });
-
       try {
         const showPromise = api.getShowById({ showId: id, requestId: requestIdShow });
         const seasonsPromise = api.getSeasonsByShow({ showId: id, requestId: requestIdSeasons });
@@ -70,26 +69,23 @@ export function useShowDetails(id: number | undefined) {
           throw new Error("Show or seasons not fetched");
         }
 
-        const episodePromises = seasons.map(season => {
-          const requestIdEpisode = api.generateRequestId();
-          requestIdsEpisodes.push(requestIdEpisode);
-          return api.getEpisodesBySeason({ seasonId: season.id, requestId: requestIdEpisode });
-        });
-
+        const episodePromises = seasons.map(season =>
+          api.getEpisodesBySeason({ seasonId: season.id, requestId: api.generateRequestId() }),
+        );
         const episodeResults = await Promise.all(episodePromises);
-        const episodes = episodeResults.filter(Boolean).flat();
-        const details: ShowDetails = { ...show, episodes };
 
+        const episodes = episodeResults.filter(Boolean).flat();
+
+        const details: ShowDetails = { ...show, episodes };
         dispatch({ type: "FETCH/SUCCESS", payload: details });
-      } catch (err) {
-        dispatch({ type: "FETCH/FAILURE", payload: err as Error });
+      } catch (fetchError) {
+        dispatch({ type: "FETCH/FAILURE", payload: fetchError as Error });
       }
     })();
 
     return () => {
       api.cancelRequest(requestIdShow);
       api.cancelRequest(requestIdSeasons);
-      requestIdsEpisodes.forEach(api.cancelRequest);
     };
   }, [id, dispatch]);
 

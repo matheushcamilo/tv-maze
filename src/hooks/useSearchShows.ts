@@ -61,18 +61,15 @@ export function useSearchShows() {
     (async () => {
       dispatch({ type: "FETCH/INIT" });
 
-      // Try to get data from storage
       let shows: Show[] = [];
       const idsFromStorage = searchResultsStorage.getSearchByName(debouncedValue);
       if (idsFromStorage !== null) {
         shows = idsFromStorage.map(id => showStorage.getShowById(id)).filter(show => show !== null) as Show[];
       } else {
-        // If data is not in the storage, fetch it from the API
         try {
           const results = await api.searchShowsByName({ name: debouncedValue, requestId });
           shows = results ? results.map(result => result.show) : [];
 
-          // Save the ids of the fetched data in the storage
           const ids = shows.map(show => show.id);
           searchResultsStorage.addSearch(debouncedValue, ids);
           shows.forEach(show => showStorage.addShow(show));

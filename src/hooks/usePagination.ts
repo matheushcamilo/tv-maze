@@ -56,18 +56,16 @@ export function usePagination(page: number) {
       try {
         let showsData;
         if (idsByPage === null) {
-          // Fetch data from API
           showsData = await api.getShowsByPage({ page, requestId });
 
           if (showsData === null) {
             throw new Error("Fetching shows failed.");
           }
-          // Save the fetched data to storage
+
           const ids = showsData.map(show => show.id);
           pageStorage.addPage(page, ids);
           showsData.forEach(show => showStorage.addShow(show));
         } else {
-          // Retrieve data from storage
           showsData = idsByPage.map(id => showStorage.getShowById(id)).filter(show => show !== null) as Show[];
         }
 

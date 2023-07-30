@@ -12,8 +12,7 @@ class PageStorage extends Storage {
   }
 
   public getIdsByPage(page: number): number[] | null {
-    const data = this.get<number[]>(page);
-    return data || null;
+    return this.get<number[]>(page);
   }
 
   public removePage(page: number): void {

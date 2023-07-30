@@ -26,7 +26,7 @@ type Network = {
 
 type Days = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
-type Schedule = {
+export type Schedule = {
   time: string;
   days: Days[];
 };
