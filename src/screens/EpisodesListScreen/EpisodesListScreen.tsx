@@ -11,7 +11,7 @@ import {
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { Screen } from "@components";
+import { LoadingOverlay, Screen } from "@components";
 import { useShowEpisodes } from "@hooks";
 import { StackRootParamList } from "@routes";
 import { Episode } from "@services";
@@ -38,7 +38,7 @@ type RenderItem = SectionListRenderItem<
 >;
 
 export function EpisodesListScreen({ route, navigation }: EpisodesListScreenProps) {
-  const { selectors } = useShowEpisodes(route.params?.id);
+  const { selectors, loading } = useShowEpisodes(route.params?.seasonId);
 
   const sections = selectors.groupEpisodesBySeason();
 
@@ -54,7 +54,7 @@ export function EpisodesListScreen({ route, navigation }: EpisodesListScreenProp
 
   const renderItem: RenderItem = ({ item }) => {
     function navigateToEpisodeDetailsScreen() {
-      navigation.navigate("EpisodeDetailsScreen", { id: item.id });
+      navigation.navigate("EpisodeDetailsScreen", { episodeId: item.id });
     }
 
     return (
@@ -68,6 +68,10 @@ export function EpisodesListScreen({ route, navigation }: EpisodesListScreenProp
       </TouchableOpacity>
     );
   };
+
+  if (loading) {
+    return <LoadingOverlay visible={loading} />;
+  }
 
   return (
     <Screen canGoBack>

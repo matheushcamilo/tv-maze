@@ -3,6 +3,7 @@ import React from "react";
 import { useImmerReducer } from "use-immer";
 
 import { Episode, api } from "@services";
+import { episodeStorage } from "@storage";
 
 interface State {
   episodes: Episode[];
@@ -76,12 +77,24 @@ export function useShowEpisodes(id: number | undefined) {
       dispatch({ type: "FETCH/INIT" });
 
       try {
-        const episodes = await api.getEpisodesBySeason({ seasonId: id, requestId });
-        if (episodes === null) {
-          throw new Error("Fetching episodes failed.");
+        // Tentar buscar episódios do EpisodeStorage
+        let episodesData = episodeStorage.getEpisodesBySeasonId(id);
+
+        // Se os episódios não estão no EpisodeStorage, buscar da API
+        if (episodesData === null) {
+          const episodesFromApi = await api.getEpisodesBySeason({ seasonId: id, requestId });
+          if (episodesFromApi === null) {
+            throw new Error("Fetching episodes failed.");
+          }
+
+          // Adicionar episódios ao EpisodeStorage
+          episodeStorage.addEpisodes(id, episodesFromApi);
+
+          // Atualizar episodesData
+          episodesData = episodesFromApi;
         }
 
-        dispatch({ type: "FETCH/SUCCESS", payload: episodes });
+        dispatch({ type: "FETCH/SUCCESS", payload: episodesData });
       } catch (err) {
         dispatch({ type: "FETCH/FAILURE", payload: err as Error });
       }

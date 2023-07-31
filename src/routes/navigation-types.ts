@@ -3,8 +3,8 @@ import { NavigatorScreenParams } from "@react-navigation/native";
 export type StackRootParamList = {
   DrawerNavigator: NavigatorScreenParams<DrawerRootParamList>;
   ShowDetailsScreen: undefined | { showId: number };
-  EpisodesListScreen: undefined | { id: number };
-  EpisodeDetailsScreen: undefined | { id: number };
+  EpisodesListScreen: undefined | { seasonId: number };
+  EpisodeDetailsScreen: undefined | { episodeId: number };
   SeasonsScreen: undefined | { seasonId: number };
 };
 

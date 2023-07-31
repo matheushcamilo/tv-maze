@@ -14,7 +14,7 @@ type EpisodeDetailsScreenProps = NativeStackScreenProps<StackRootParamList, "Epi
 export function EpisodeDetailsScreen({ route }: EpisodeDetailsScreenProps) {
   const { width } = useWindowDimensions();
   const [imageLoaded, setImageLoaded] = React.useState(false);
-  const { episodeDetails, loading } = useEpisodeDetails(route.params?.id);
+  const { episodeDetails, loading } = useEpisodeDetails(route.params?.episodeId);
   const systemFonts = React.useMemo(() => [...defaultSystemFonts, "Satoshi-Medium"], []);
   const contentWidth = React.useMemo(() => width - spacing.s16 * 2, [width]);
 

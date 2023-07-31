@@ -28,7 +28,7 @@ export function Screen({ children, canGoBack = false, scrollable = false, style,
             <TouchableOpacity style={styles.goBack} onPress={navigation.goBack}>
               <Icon size={22} name="arrow-left" color={palette.greenDark} />
               <Text style={styles.goBackText} accessibilityRole="text">
-                Voltar
+                Back
               </Text>
             </TouchableOpacity>
           ) : null}

@@ -11,13 +11,17 @@ import { palette, spacing } from "@themes";
 type EpisodesListScreenProps = NativeStackScreenProps<StackRootParamList, "SeasonsScreen">;
 type Season = { seasonId: number; number: number };
 
-export function SeasonsScreen({ route }: EpisodesListScreenProps) {
+export function SeasonsScreen({ route, navigation }: EpisodesListScreenProps) {
   const flatListRef = React.useRef<FlatList>(null);
   const { seasons, loading } = useSeasons(route.params?.seasonId);
 
   const renderItem: ListRenderItem<Season> = ({ item }) => {
+    function navigateToEpisodeListScreen() {
+      navigation.navigate("EpisodesListScreen", { seasonId: item.seasonId });
+    }
+
     return (
-      <TouchableOpacity style={styles.titleContainer}>
+      <TouchableOpacity style={styles.titleContainer} onPress={navigateToEpisodeListScreen}>
         <Text style={styles.title} accessibilityRole="text">
           {`Season ${item.number.toString().padStart(2, "0")}`}
         </Text>
