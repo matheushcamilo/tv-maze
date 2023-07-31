@@ -2,22 +2,22 @@ import React from "react";
 import { FlatList, ListRenderItem } from "react-native";
 
 import { EmptyListMessage } from "@components";
-import { ShowResponse } from "@services";
+import { Show } from "@services";
 
 import { SeriesItem } from "../SeriesItem/SeriesItem";
 
 type SeriesListProps = {
-  shows: ShowResponse[];
+  shows: Show[];
 };
 
 export function SeriesList({ shows }: SeriesListProps) {
   const flatListRef = React.useRef<FlatList>(null);
 
-  const renderItem: ListRenderItem<ShowResponse> = ({ item }) => {
+  const renderItem: ListRenderItem<Show> = ({ item }) => {
     return (
       <SeriesItem
-        id={item?.id}
-        image={item?.image?.medium}
+        showId={item?.id}
+        image={item?.image?.medium || ""}
         name={item?.name}
         rating={item?.rating?.average}
         language={item?.language}

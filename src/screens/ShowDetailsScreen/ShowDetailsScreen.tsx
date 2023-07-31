@@ -17,15 +17,15 @@ import { Title } from "./components/Title";
 type ShowDetailsScreenProps = NativeStackScreenProps<StackRootParamList, "ShowDetailsScreen">;
 
 export function ShowDetailsScreen({ route, navigation }: ShowDetailsScreenProps) {
-  const { showDetails, loading } = useShowDetails(route.params?.id);
+  const { showDetails, loading } = useShowDetails(route.params?.showId);
   const [imageLoaded, setImageLoaded] = React.useState(false);
 
-  function navigateToEpisodesListScreen() {
-    if (!route.params?.id) {
+  function navigateToSeasonsScreen() {
+    if (!route.params?.showId) {
       return;
     }
 
-    navigation.navigate("EpisodesListScreen", { id: route.params?.id });
+    navigation.navigate("SeasonsScreen", { seasonId: route.params?.showId });
   }
 
   if (loading) {
@@ -50,7 +50,7 @@ export function ShowDetailsScreen({ route, navigation }: ShowDetailsScreenProps)
       <Summary summary={showDetails?.summary || ""} />
 
       <View style={styles.buttonContainer}>
-        <Button color={palette.greenDark} title="View Episodes by Season" onPress={navigateToEpisodesListScreen} />
+        <Button color={palette.greenDark} title="View Seasons" onPress={navigateToSeasonsScreen} />
       </View>
     </Screen>
   );

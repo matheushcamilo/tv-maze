@@ -2,21 +2,18 @@ import React from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import { Show, Episode, api } from "@services";
-
-export type ShowDetails = Show & {
-  episodes: Episode[];
-};
+import { Show, api } from "@services";
+import { showStorage } from "@storage";
 
 interface State {
-  showDetails: ShowDetails | null;
+  showDetails: Show | null;
   loading: boolean;
   error: Error | null;
 }
 
 type Action =
   | { type: "FETCH/INIT" }
-  | { type: "FETCH/SUCCESS"; payload: ShowDetails }
+  | { type: "FETCH/SUCCESS"; payload: Show }
   | { type: "FETCH/FAILURE"; payload: Error };
 
 const initialState: State = {
@@ -54,38 +51,31 @@ export function useShowDetails(id: number | undefined) {
       return;
     }
 
-    const requestIdShow = api.generateRequestId();
-    const requestIdSeasons = api.generateRequestId();
-
-    dispatch({ type: "FETCH/INIT" });
+    const requestId = api.generateRequestId();
 
     (async () => {
-      try {
-        const showPromise = api.getShowById({ showId: id, requestId: requestIdShow });
-        const seasonsPromise = api.getSeasonsByShow({ showId: id, requestId: requestIdSeasons });
-        const [show, seasons] = await Promise.all([showPromise, seasonsPromise]);
+      dispatch({ type: "FETCH/INIT" });
 
-        if (!show || !seasons) {
-          throw new Error("Show or seasons not fetched");
+      try {
+        let show = showStorage.getShowById(id);
+
+        if (show === null) {
+          show = await api.getShowById({ showId: id, requestId });
+          if (show === null) {
+            throw new Error("Show not fetched.");
+          }
+
+          showStorage.addShow(show);
         }
 
-        const episodePromises = seasons.map(season =>
-          api.getEpisodesBySeason({ seasonId: season.id, requestId: api.generateRequestId() }),
-        );
-        const episodeResults = await Promise.all(episodePromises);
-
-        const episodes = episodeResults.filter(Boolean).flat();
-
-        const details: ShowDetails = { ...show, episodes };
-        dispatch({ type: "FETCH/SUCCESS", payload: details });
+        dispatch({ type: "FETCH/SUCCESS", payload: show });
       } catch (fetchError) {
         dispatch({ type: "FETCH/FAILURE", payload: fetchError as Error });
       }
     })();
 
     return () => {
-      api.cancelRequest(requestIdShow);
-      api.cancelRequest(requestIdSeasons);
+      api.cancelRequest(requestId);
     };
   }, [id, dispatch]);
 

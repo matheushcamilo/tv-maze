@@ -51,9 +51,10 @@ export function useEpisodeDetails(id: number | undefined) {
     }
 
     const requestId = api.generateRequestId();
-    dispatch({ type: "FETCH/INIT" });
 
     (async () => {
+      dispatch({ type: "FETCH/INIT" });
+
       try {
         const episodeDetails = await api.getEpisodeById({ episodeId: id, requestId });
         if (episodeDetails === null) {

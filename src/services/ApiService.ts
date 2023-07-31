@@ -50,7 +50,7 @@ class ApiService {
     const source = this.createCancelTokenSource(requestId);
 
     try {
-      const { data } = await this.axios.get<T>(url, { cancelToken: source.token, ...config });
+      const { data } = await this.axios.get<T>(url, { ...config, cancelToken: source.token });
       return data;
     } catch (error) {
       if (!__DEV__) {
@@ -69,26 +69,34 @@ class ApiService {
     }
   }
 
+  // TODO: Remove all these comments when the API is ready
+
+  //  ShowScreen
   public async getShowsByPage({ page, requestId }: ShowByPage): Promise<Show[] | null> {
     return await this.get<Show[]>({ url: `/shows?page=${page}`, requestId });
   }
 
+  //  ShowScreen
   public async searchShowsByName({ name, requestId }: SearchShowsByName): Promise<SearchShowsResult[] | null> {
     return await this.get<SearchShowsResult[]>({ url: `/search/shows?q=${name}`, requestId });
   }
 
-  public async getSeasonsByShow({ showId, requestId }: GetShowById): Promise<Season[] | null> {
-    return await this.get<Season[]>({ url: `/shows/${showId}/seasons`, requestId });
-  }
-
-  public async getEpisodesBySeason({ seasonId, requestId }: EpisodesBySeason): Promise<Episode[] | null> {
-    return await this.get<Episode[]>({ url: `/seasons/${seasonId}/episodes`, requestId });
-  }
-
+  // ShowDetailsScreen
   public async getShowById({ showId, requestId }: GetShowById): Promise<Show | null> {
     return await this.get<Show>({ url: `/shows/${showId}`, requestId });
   }
 
+  // SeasonsScreen
+  public async getSeasonsByShow({ showId, requestId }: GetShowById): Promise<Season[] | null> {
+    return await this.get<Season[]>({ url: `/shows/${showId}/seasons`, requestId });
+  }
+
+  // EpisodesBySeasonScreen
+  public async getEpisodesBySeason({ seasonId, requestId }: EpisodesBySeason): Promise<Episode[] | null> {
+    return await this.get<Episode[]>({ url: `/seasons/${seasonId}/episodes`, requestId });
+  }
+
+  // EpisodeDetailsScreen
   public async getEpisodeById({ episodeId, requestId }: EpisodeById): Promise<Episode | null> {
     return await this.get<Episode>({ url: `/episodes/${episodeId}`, requestId });
   }

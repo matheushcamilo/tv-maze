@@ -7,7 +7,7 @@ import { Icon } from "@components";
 import { palette, spacing } from "@themes";
 
 export interface SeriesItemProps {
-  id: number;
+  showId: number;
   name: string;
   image: string;
   rating: number | null;
@@ -15,12 +15,12 @@ export interface SeriesItemProps {
   status: string;
 }
 
-function ComponentMemoized({ id, image, language, name, rating, status }: SeriesItemProps) {
+function ComponentMemoized({ showId, image, language, name, rating, status }: SeriesItemProps) {
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const navigation = useNavigation();
 
   function handlePress() {
-    navigation.navigate("ShowDetailsScreen", { id });
+    navigation.navigate("ShowDetailsScreen", { showId });
   }
 
   return (

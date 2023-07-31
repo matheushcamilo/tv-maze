@@ -71,9 +71,10 @@ export function useShowEpisodes(id: number | undefined) {
     }
 
     const requestId = api.generateRequestId();
-    dispatch({ type: "FETCH/INIT" });
 
     (async () => {
+      dispatch({ type: "FETCH/INIT" });
+
       try {
         const episodes = await api.getEpisodesBySeason({ seasonId: id, requestId });
         if (episodes === null) {
