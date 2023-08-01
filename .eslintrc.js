@@ -1,7 +1,13 @@
 module.exports = {
   root: true,
   extends: ["@react-native-community", "prettier"],
-  plugins: ["import"],
+  plugins: ["import", "jest"],
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
+    "jest/globals": true,
+  },
   overrides: [
     {
       files: ["*.js", "*.jsx", "*.ts", "*.tsx"],
