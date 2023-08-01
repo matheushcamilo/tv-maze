@@ -10,7 +10,6 @@ export type StackRootParamList = {
 
 export type DrawerRootParamList = {
   ShowScreen: undefined;
-  FavoriteScreen: undefined | { id: number };
 };
 
 declare global {

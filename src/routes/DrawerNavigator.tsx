@@ -2,7 +2,7 @@ import React from "react";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import { FavoriteScreen, ShowScreen } from "@screens";
+import { ShowScreen } from "@screens";
 import { palette } from "@themes";
 
 import { DrawerRootParamList } from "./navigation-types";
@@ -24,7 +24,6 @@ export function DrawerNavigator() {
         drawerInactiveTintColor: palette.green,
       }}>
       <Drawer.Screen name="ShowScreen" component={ShowScreen} options={{ drawerLabel: "Shows" }} />
-      <Drawer.Screen name="FavoriteScreen" component={FavoriteScreen} options={{ drawerLabel: "Favorites" }} />
     </Drawer.Navigator>
   );
 }

@@ -17,7 +17,7 @@ module.exports = {
                 position: "before",
               },
               {
-                pattern: "@+(routes|components|hooks|themes|utils|env|storage|contexts|assets|services|screens)",
+                pattern: "@+(routes|components|hooks|themes|utils|env|storage|assets|services|screens)",
                 group: "internal",
                 position: "before",
               },
