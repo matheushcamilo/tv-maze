@@ -23,11 +23,15 @@ jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: jest.fn(),
 }));
 
-// global setup for each test
+/**
+ * Global setup for each test
+ */
+
 beforeEach(() => {
   jest.useFakeTimers();
 });
 
 afterEach(() => {
   jest.useRealTimers();
+  jest.resetAllMocks(); // clean up mocks after each test
 });
