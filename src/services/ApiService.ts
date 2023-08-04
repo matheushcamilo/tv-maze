@@ -69,8 +69,6 @@ class ApiService {
     }
   }
 
-  // TODO: Remove all these comments when the API is ready
-
   //  ShowScreen
   public async getShowsByPage({ page, requestId }: ShowByPage): Promise<Show[] | null> {
     return await this.get<Show[]>({ url: `/shows?page=${page}`, requestId });
