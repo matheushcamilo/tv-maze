@@ -1,7 +1,6 @@
 import React from "react";
 
-import { render, fireEvent, screen } from "@testing-library/react-native";
-
+import { render, fireEvent, screen } from "../../tests/test-utils";
 import { Pagination } from "../Pagination/Pagination";
 
 describe("Pagination", () => {

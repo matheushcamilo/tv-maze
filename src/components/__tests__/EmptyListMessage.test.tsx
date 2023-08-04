@@ -1,7 +1,6 @@
 import React from "react";
 
-import { render, screen } from "@testing-library/react-native";
-
+import { render, screen } from "../../tests/test-utils";
 import { EmptyListMessage } from "../EmptyListMessage/EmptyListMessage";
 
 describe("EmptyListMessage", () => {
