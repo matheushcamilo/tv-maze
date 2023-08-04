@@ -5,19 +5,17 @@ import { palette, spacing } from "@themes";
 
 interface PaginationProps {
   page: number;
-  onChangePage: (newPage: number) => void;
+  onChangePage: React.Dispatch<React.SetStateAction<number>>;
   disabled?: boolean;
 }
 
 export function Pagination({ page, onChangePage, disabled = false }: PaginationProps) {
   const handlePreviousPage = () => {
-    const newPage = Math.max(1, page - 1);
-    onChangePage(newPage);
+    onChangePage(prevPage => Math.max(1, prevPage - 1));
   };
 
   const handleNextPage = () => {
-    const newPage = page + 1;
-    onChangePage(newPage);
+    onChangePage(prevPage => prevPage + 1);
   };
 
   return (
