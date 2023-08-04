@@ -24,7 +24,7 @@ type Network = {
   officialSite: string | null;
 };
 
-type Days = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+export type Days = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 export type Schedule = {
   time: string;

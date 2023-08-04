@@ -1,6 +1,6 @@
-import { WeekDays } from "@services";
+import { Days } from "@services";
 
-export function formatDays(days: WeekDays[]): string {
+export function formatDays(days: Days[]): string {
   if (days.length === 1) {
     return days[0];
   }
