@@ -17,6 +17,14 @@ export function ShowScreen({}: ShowScreenProps) {
 
   const isSearching = searchBar.value.length > 0;
 
+  const onPreviousPage = () => {
+    setPage(prevPage => Math.max(1, prevPage - 1));
+  };
+
+  const onNextPage = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
   if ((error || searchError) && __DEV__) {
     console.log(error || searchError);
   }
@@ -25,7 +33,7 @@ export function ShowScreen({}: ShowScreenProps) {
     <Screen style={styles.container}>
       <SearchBar {...searchBar} />
       <SeriesList shows={isSearching ? searchResults : shows} />
-      <Pagination page={page} onChangePage={setPage} disabled={isSearching} />
+      <Pagination page={page} onNextPage={onNextPage} onPreviousPage={onPreviousPage} disabled={isSearching} />
       {loading || searchLoading ? <LoadingOverlay visible={loading || searchLoading} /> : null}
     </Screen>
   );

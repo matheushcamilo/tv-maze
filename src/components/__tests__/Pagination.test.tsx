@@ -4,49 +4,37 @@ import { render, fireEvent, screen } from "../../tests/test-utils";
 import { Pagination } from "../Pagination/Pagination";
 
 describe("Pagination", () => {
+  let onNextPage: jest.Mock;
+  let onPreviousPage: jest.Mock;
+
   beforeEach(() => {
-    function TestWrapper() {
-      const [page, setPage] = React.useState(1);
-      return <Pagination page={page} onChangePage={setPage} />;
-    }
-    render(<TestWrapper />);
+    onNextPage = jest.fn();
+    onPreviousPage = jest.fn();
+
+    render(<Pagination page={1} onNextPage={onNextPage} onPreviousPage={onPreviousPage} />);
   });
 
-  it("should go to the next page when Next button is pressed", () => {
-    const buttonNext = screen.getByRole("button", { name: /next/i, disabled: false });
+  it("should call the correct function when Next button is pressed", () => {
+    const buttonNext = screen.getByRole("button", { name: /next/i });
     fireEvent.press(buttonNext);
 
-    const page = screen.getByRole("text", { name: /2/ });
-    expect(page).toBeDefined();
+    expect(onNextPage).toHaveBeenCalled();
   });
 
-  it("should not go to the previous page when Previous button is pressed on page 1", () => {
-    const buttonPrevious = screen.getByRole("button", { name: /previous/i, disabled: true });
-    expect(buttonPrevious).toBeDefined();
-
-    const buttonNext = screen.getByRole("button", { name: /next/i, disabled: false });
-    fireEvent.press(buttonNext);
-
-    const page = screen.getByRole("text", { name: /2/ });
-    expect(page).toBeDefined();
-
+  it("should not call the function when Previous button is pressed on page 1", () => {
+    const buttonPrevious = screen.getByRole("button", { name: /previous/i });
     fireEvent.press(buttonPrevious);
 
-    const updatedPage = screen.getByRole("text", { name: /1/ });
-    expect(updatedPage).toBeDefined();
+    expect(onPreviousPage).not.toHaveBeenCalled();
   });
 
   it("should disable the Next and Previous button if disabled prop is passed", () => {
-    function DisabledTestWrapper() {
-      const [page, setPage] = React.useState(1);
-      return <Pagination page={page} onChangePage={setPage} disabled />;
-    }
-    render(<DisabledTestWrapper />);
+    render(<Pagination page={1} onNextPage={onNextPage} onPreviousPage={onPreviousPage} disabled />);
 
-    const buttonPrevious = screen.getByRole("button", { name: /previous/i, disabled: true });
-    expect(buttonPrevious).toBeDefined();
+    const buttonPrevious = screen.getByRole("button", { name: /previous/i });
+    expect(buttonPrevious).toBeDisabled();
 
-    const buttonNext = screen.getByRole("button", { name: /next/i, disabled: true });
-    expect(buttonNext).toBeDefined();
+    const buttonNext = screen.getByRole("button", { name: /next/i });
+    expect(buttonNext).toBeDisabled();
   });
 });
