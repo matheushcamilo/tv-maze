@@ -8,10 +8,10 @@ import { useSeasons } from "@hooks";
 import { StackRootParamList } from "@routes";
 import { palette, spacing } from "@themes";
 
-type EpisodesListScreenProps = NativeStackScreenProps<StackRootParamList, "SeasonsScreen">;
+type SeasonListScreenProps = NativeStackScreenProps<StackRootParamList, "SeasonListScreen">;
 type Season = { seasonId: number; number: number };
 
-export function SeasonsScreen({ route, navigation }: EpisodesListScreenProps) {
+export function SeasonListScreen({ route, navigation }: SeasonListScreenProps) {
   const flatListRef = React.useRef<FlatList>(null);
   const { seasons, loading } = useSeasons(route.params?.seasonId);
 

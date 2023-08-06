@@ -5,7 +5,7 @@ export type StackRootParamList = {
   ShowDetailsScreen: undefined | { showId: number };
   EpisodesListScreen: undefined | { seasonId: number };
   EpisodeDetailsScreen: undefined | { episodeId: number };
-  SeasonsScreen: undefined | { seasonId: number };
+  SeasonListScreen: undefined | { seasonId: number };
 };
 
 export type DrawerRootParamList = {

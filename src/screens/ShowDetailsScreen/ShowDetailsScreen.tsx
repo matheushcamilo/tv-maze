@@ -20,12 +20,12 @@ export function ShowDetailsScreen({ route, navigation }: ShowDetailsScreenProps)
   const { showDetails, loading } = useShowDetails(route.params?.showId);
   const [imageLoaded, setImageLoaded] = React.useState(false);
 
-  function navigateToSeasonsScreen() {
+  function navigateToSeasonListScreen() {
     if (!route.params?.showId) {
       return;
     }
 
-    navigation.navigate("SeasonsScreen", { seasonId: route.params?.showId });
+    navigation.navigate("SeasonListScreen", { seasonId: route.params?.showId });
   }
 
   if (loading) {
@@ -50,7 +50,7 @@ export function ShowDetailsScreen({ route, navigation }: ShowDetailsScreenProps)
       <Summary summary={showDetails?.summary || ""} />
 
       <View style={styles.buttonContainer}>
-        <Button color={palette.greenDark} title="View Seasons" onPress={navigateToSeasonsScreen} />
+        <Button color={palette.greenDark} title="View Seasons" onPress={navigateToSeasonListScreen} />
       </View>
     </Screen>
   );

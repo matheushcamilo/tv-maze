@@ -84,7 +84,7 @@ class ApiService {
     return await this.get<Show>({ url: `/shows/${showId}`, requestId });
   }
 
-  // SeasonsScreen
+  // SeasonListScreen
   public async getSeasonsByShow({ showId, requestId }: GetShowById): Promise<Season[] | null> {
     return await this.get<Season[]>({ url: `/shows/${showId}/seasons`, requestId });
   }
