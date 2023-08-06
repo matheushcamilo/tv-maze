@@ -2,4 +2,4 @@ export * from "./EpisodeDetailsScreen/EpisodeDetailsScreen";
 export * from "./EpisodesListScreen/EpisodesListScreen";
 export * from "./SeasonsScreen/SeasonsScreen";
 export * from "./ShowDetailsScreen/ShowDetailsScreen";
-export * from "./ShowScreen/ShowScreen";
+export * from "./HomeScreen/HomeScreen";

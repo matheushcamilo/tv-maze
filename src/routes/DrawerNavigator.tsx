@@ -2,7 +2,7 @@ import React from "react";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import { ShowScreen } from "@screens";
+import { HomeScreen } from "@screens";
 import { palette } from "@themes";
 
 import { DrawerRootParamList } from "./navigation-types";
@@ -12,7 +12,7 @@ const Drawer = createDrawerNavigator<DrawerRootParamList>();
 export function DrawerNavigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="ShowScreen"
+      initialRouteName="HomeScreen"
       screenOptions={{
         headerTintColor: palette.grayExtraLight,
         headerTitleStyle: { fontSize: 20, fontFamily: "Satoshi-Bold" },
@@ -23,7 +23,7 @@ export function DrawerNavigator() {
         drawerActiveTintColor: palette.greenDark,
         drawerInactiveTintColor: palette.green,
       }}>
-      <Drawer.Screen name="ShowScreen" component={ShowScreen} options={{ drawerLabel: "Shows" }} />
+      <Drawer.Screen name="HomeScreen" component={HomeScreen} options={{ drawerLabel: "Shows" }} />
     </Drawer.Navigator>
   );
 }

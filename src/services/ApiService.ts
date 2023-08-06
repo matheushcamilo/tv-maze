@@ -69,12 +69,12 @@ class ApiService {
     }
   }
 
-  //  ShowScreen
+  //  HomeScreen
   public async getShowsByPage({ page, requestId }: ShowByPage): Promise<Show[] | null> {
     return await this.get<Show[]>({ url: `/shows?page=${page}`, requestId });
   }
 
-  //  ShowScreen
+  //  HomeScreen
   public async searchShowsByName({ name, requestId }: SearchShowsByName): Promise<SearchShowsResult[] | null> {
     return await this.get<SearchShowsResult[]>({ url: `/search/shows?q=${name}`, requestId });
   }

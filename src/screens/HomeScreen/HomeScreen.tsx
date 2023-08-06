@@ -8,9 +8,9 @@ import { useSearchShows, usePagination } from "@hooks";
 import { DrawerRootParamList } from "@routes";
 import { spacing } from "@themes";
 
-type ShowScreenProps = DrawerScreenProps<DrawerRootParamList, "ShowScreen">;
+type HomeScreenProps = DrawerScreenProps<DrawerRootParamList, "HomeScreen">;
 
-export function ShowScreen({}: ShowScreenProps) {
+export function HomeScreen({}: HomeScreenProps) {
   const [page, setPage] = React.useState<number>(1);
   const { shows, loading, error } = usePagination(page);
   const { searchResults, searchBar, loading: searchLoading, error: searchError } = useSearchShows();

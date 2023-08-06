@@ -9,7 +9,7 @@ export type StackRootParamList = {
 };
 
 export type DrawerRootParamList = {
-  ShowScreen: undefined;
+  HomeScreen: undefined;
 };
 
 declare global {
