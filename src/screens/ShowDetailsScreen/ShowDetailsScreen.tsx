@@ -43,12 +43,10 @@ export function ShowDetailsScreen({ route, navigation }: ShowDetailsScreenProps)
   return (
     <Screen canGoBack scrollable>
       <ShowDetailsImage uri={showDetails?.image?.original} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
-
       <Title>{showDetails?.name}</Title>
       <Schedule days={showDetails?.schedule.days || []} time={showDetails?.schedule.time || ""} />
       <Genres genres={showDetails?.genres} />
       <Summary summary={showDetails?.summary || ""} />
-
       <View style={styles.buttonContainer}>
         <Button color={palette.greenDark} title="View Seasons" onPress={navigateToSeasonListScreen} />
       </View>

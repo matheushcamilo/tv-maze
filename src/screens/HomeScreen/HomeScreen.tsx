@@ -29,12 +29,15 @@ export function HomeScreen({}: HomeScreenProps) {
     console.log(error || searchError);
   }
 
+  if (loading || searchLoading) {
+    return <LoadingOverlay visible={loading || searchLoading} />;
+  }
+
   return (
     <Screen style={styles.container}>
       <SearchBar {...searchBar} />
       <SeriesList shows={isSearching ? searchResults : shows} />
       <Pagination page={page} onNextPage={onNextPage} onPreviousPage={onPreviousPage} disabled={isSearching} />
-      {loading || searchLoading ? <LoadingOverlay visible={loading || searchLoading} /> : null}
     </Screen>
   );
 }
