@@ -9,11 +9,11 @@ class SeasonStorage extends Storage {
     super(id, encryptionKey);
   }
 
-  public addSeasons(showId: number, seasons: SeasonObject[]): void {
+  public addSeasonList({ showId, seasons }: { showId: number; seasons: SeasonObject[] }): void {
     this.set(showId, seasons);
   }
 
-  public getSeasonsByShowId(showId: number): SeasonObject[] | null {
+  public getSeasonListByShowId(showId: number): SeasonObject[] | null {
     return this.get<SeasonObject[]>(showId);
   }
 

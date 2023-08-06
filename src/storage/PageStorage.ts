@@ -7,11 +7,11 @@ class PageStorage extends Storage {
     super(id, encryptionKey);
   }
 
-  public addPage(page: number, ids: number[]): void {
+  public addPage({ page, ids }: { page: number; ids: number[] }): void {
     this.set(page, ids);
   }
 
-  public getIdsByPage(page: number): number[] | null {
+  public getShowIdListByPage(page: number): number[] | null {
     return this.get<number[]>(page);
   }
 

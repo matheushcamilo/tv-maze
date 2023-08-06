@@ -5,12 +5,12 @@ import { BASE_URL } from "@env";
 
 import { Show, Season, Episode, SearchShowsResult } from "./services-types";
 
-type Get = { url: string; config?: AxiosRequestConfig; requestId: string };
-type ShowByPage = { page: number; requestId: string };
-type EpisodesBySeason = { seasonId: number; requestId: string };
-type SearchShowsByName = { name: string; requestId: string };
-type GetShowById = { showId: number; requestId: string };
-type EpisodeById = { episodeId: number; requestId: string };
+type GetProps = { url: string; config?: AxiosRequestConfig; requestId: string };
+type ShowListProps = { page: number; requestId: string };
+type EpisodeListProps = { seasonId: number; requestId: string };
+type SearchShowListProps = { queryName: string; requestId: string };
+type ShowByIdProps = { showId: number; requestId: string };
+type EpisodeByIdProps = { episodeId: number; requestId: string };
 
 class ApiService {
   private readonly axios: AxiosInstance;
@@ -46,7 +46,7 @@ class ApiService {
     return uuid.v4().toString();
   }
 
-  private async get<T>({ url, config = {}, requestId }: Get): Promise<T | null> {
+  private async get<T>({ url, config = {}, requestId }: GetProps): Promise<T | null> {
     const source = this.createCancelTokenSource(requestId);
 
     try {
@@ -70,32 +70,35 @@ class ApiService {
   }
 
   //  HomeScreen
-  public async getShowsByPage({ page, requestId }: ShowByPage): Promise<Show[] | null> {
+  public async getShowListByPage({ page, requestId }: ShowListProps): Promise<Show[] | null> {
     return await this.get<Show[]>({ url: `/shows?page=${page}`, requestId });
   }
 
   //  HomeScreen
-  public async searchShowsByName({ name, requestId }: SearchShowsByName): Promise<SearchShowsResult[] | null> {
-    return await this.get<SearchShowsResult[]>({ url: `/search/shows?q=${name}`, requestId });
+  public async getShowsListByQueryName({
+    queryName,
+    requestId,
+  }: SearchShowListProps): Promise<SearchShowsResult[] | null> {
+    return await this.get<SearchShowsResult[]>({ url: `/search/shows?q=${queryName}`, requestId });
   }
 
   // ShowDetailsScreen
-  public async getShowById({ showId, requestId }: GetShowById): Promise<Show | null> {
+  public async getShowById({ showId, requestId }: ShowByIdProps): Promise<Show | null> {
     return await this.get<Show>({ url: `/shows/${showId}`, requestId });
   }
 
   // SeasonListScreen
-  public async getSeasonsByShow({ showId, requestId }: GetShowById): Promise<Season[] | null> {
+  public async getSeasonListByShowId({ showId, requestId }: ShowByIdProps): Promise<Season[] | null> {
     return await this.get<Season[]>({ url: `/shows/${showId}/seasons`, requestId });
   }
 
   // EpisodesBySeasonScreen
-  public async getEpisodesBySeason({ seasonId, requestId }: EpisodesBySeason): Promise<Episode[] | null> {
+  public async getEpisodeListBySeasonId({ seasonId, requestId }: EpisodeListProps): Promise<Episode[] | null> {
     return await this.get<Episode[]>({ url: `/seasons/${seasonId}/episodes`, requestId });
   }
 
   // EpisodeDetailsScreen
-  public async getEpisodeById({ episodeId, requestId }: EpisodeById): Promise<Episode | null> {
+  public async getEpisodeById({ episodeId, requestId }: EpisodeByIdProps): Promise<Episode | null> {
     return await this.get<Episode>({ url: `/episodes/${episodeId}`, requestId });
   }
 }

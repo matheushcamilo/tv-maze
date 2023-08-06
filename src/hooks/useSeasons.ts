@@ -59,17 +59,17 @@ export function useSeasons(showId: number | undefined) {
       dispatch({ type: "FETCH/INIT" });
 
       try {
-        let seasonsData = seasonStorage.getSeasonsByShowId(showId);
+        let seasonsData = seasonStorage.getSeasonListByShowId(showId);
 
         if (seasonsData === null) {
-          const seasonsFromApi = await api.getSeasonsByShow({ showId, requestId });
+          const seasonsFromApi = await api.getSeasonListByShowId({ showId, requestId });
 
           if (seasonsFromApi === null) {
             throw new Error("Fetching seasons failed.");
           }
 
           const seasonsObjects = seasonsFromApi.map(season => ({ seasonId: season.id, number: season.number })); // Mudar o campo id para seasonId
-          seasonStorage.addSeasons(showId, seasonsObjects);
+          seasonStorage.addSeasonList({ showId, seasons: seasonsObjects });
           seasonsData = seasonsObjects;
         }
 

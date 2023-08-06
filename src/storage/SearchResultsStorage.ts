@@ -7,8 +7,8 @@ class SearchResultsStorage extends Storage {
     super(id, encryptionKey);
   }
 
-  public addSearch(name: string, ids: number[]): void {
-    this.set(name, ids);
+  public addSearchByQueryName({ queryName, ids }: { queryName: string; ids: number[] }): void {
+    this.set(queryName, ids);
   }
 
   public getSearchByName(name: string): number[] | null {

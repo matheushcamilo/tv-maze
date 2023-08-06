@@ -26,7 +26,7 @@ export function EpisodeDetailsScreen({ route }: EpisodeDetailsScreenProps) {
       <EpisodeDetailsImage
         imageLoaded={imageLoaded}
         setImageLoaded={setImageLoaded}
-        uri={episodeDetails?.image.original}
+        uri={episodeDetails?.image?.original}
       />
       <Title>{episodeDetails?.name}</Title>
       <Subtitle season={episodeDetails?.season} number={episodeDetails?.number} />

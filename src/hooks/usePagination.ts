@@ -51,19 +51,19 @@ export function usePagination(page: number) {
 
     (async () => {
       dispatch({ type: "FETCH/INIT" });
-      const idsByPage = pageStorage.getIdsByPage(page);
+      const idsByPage = pageStorage.getShowIdListByPage(page);
 
       try {
         let showsData;
         if (idsByPage === null) {
-          showsData = await api.getShowsByPage({ page, requestId });
+          showsData = await api.getShowListByPage({ page, requestId });
 
           if (showsData === null) {
             throw new Error("Fetching shows failed.");
           }
 
           const ids = showsData.map(show => show.id);
-          pageStorage.addPage(page, ids);
+          pageStorage.addPage({ page, ids });
           showsData.forEach(show => showStorage.addShow(show));
         } else {
           showsData = idsByPage.map(id => showStorage.getShowById(id)).filter(show => show !== null) as Show[];

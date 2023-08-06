@@ -67,11 +67,11 @@ export function useSearchShows() {
         shows = idsFromStorage.map(id => showStorage.getShowById(id)).filter(show => show !== null) as Show[];
       } else {
         try {
-          const results = await api.searchShowsByName({ name: debouncedValue, requestId });
+          const results = await api.getShowsListByQueryName({ queryName: debouncedValue, requestId });
           shows = results ? results.map(result => result.show) : [];
 
           const ids = shows.map(show => show.id);
-          searchResultsStorage.addSearch(debouncedValue, ids);
+          searchResultsStorage.addSearchByQueryName({ queryName: debouncedValue, ids });
           shows.forEach(show => showStorage.addShow(show));
         } catch (err) {
           return dispatch({ type: "FETCH/FAILURE", payload: err as Error });

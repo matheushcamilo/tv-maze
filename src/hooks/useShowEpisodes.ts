@@ -82,7 +82,7 @@ export function useShowEpisodes(id: number | undefined) {
 
         // Se os episódios não estão no EpisodeStorage, buscar da API
         if (episodesData === null) {
-          const episodesFromApi = await api.getEpisodesBySeason({ seasonId: id, requestId });
+          const episodesFromApi = await api.getEpisodeListBySeasonId({ seasonId: id, requestId });
           if (episodesFromApi === null) {
             throw new Error("Fetching episodes failed.");
           }
