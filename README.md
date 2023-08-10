@@ -2,6 +2,39 @@
 
 This project is a mobile application developed using React Native and TypeScript. The main purpose of the application is to list TV series using the API provided by the [TVMaze](https://www.tvmaze.com/) website. The application allows users to search for series by name and view detailed information about each series and its episodes.
 
+## Prerequisites
+
+Before running this project on your local machine, ensure you have the following prerequisites installed:
+
+1. **Node.js:**
+
+   - **Version required:** `v18.16.1`
+   - [Node.js Download & Installation guide](https://nodejs.org/)
+
+2. **React Native CLI:**
+
+   - **Version required:** `0.71.12`
+   - [React Native Setup guide](https://reactnative.dev/docs/environment-setup)
+
+3. **System Requirements:**
+   - **macOS:**
+     - **Version:** macOS Ventura 13.4.1
+     - **Chip:** Apple M1 Pro
+     - **Memory:** 16 GB
+4. **Android Development:**
+
+   - **Java:**
+     - **Version required:** `openjdk version "11.0.19" 2023-04-18 LTS`
+     - [Java Download & Installation guide](https://adoptopenjdk.net/)
+
+5. **iOS Development:**
+   - **Ruby:**
+     - **Version required:** `ruby 3.2.2`
+     - [Ruby Download & Installation guide](https://www.ruby-lang.org/en/documentation/installation/)
+   - **CocoaPods:**
+     - **Version required:** `1.12.1`
+     - [CocoaPods Setup guide](https://guides.cocoapods.org/using/getting-started.html)
+
 ### Screenshots
 
 If you want to see what the app looks like in action, you can find screenshots in the PrintScreens folder at the root of the project. These images provide a visual representation of the app's interface and functionality.
