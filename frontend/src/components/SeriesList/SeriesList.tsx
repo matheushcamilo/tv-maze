@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList, ListRenderItem } from "react-native";
 
-import { EmptyListMessage } from "@components";
+import { EmptyListMessage } from "../index";
 import { Show } from "@services";
 
 import { SeriesItem } from "../SeriesItem/SeriesItem";

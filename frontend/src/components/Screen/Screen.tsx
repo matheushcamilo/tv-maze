@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, Vie
 
 import { useNavigation } from "@react-navigation/native";
 
-import { Icon } from "@components";
+import { Icon } from "../index";
 import { useSafeArea } from "@hooks";
 import { palette, spacing } from "@themes";
 

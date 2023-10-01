@@ -2,7 +2,7 @@ import React from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import { useDebounce } from "@hooks";
+import { useDebounce } from "./index";
 import { Show, api } from "@services";
 import { searchResultsStorage, showStorage } from "@storage";
 

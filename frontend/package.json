@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios --simulator=\"iPhone 14\"",
-    "lint": "eslint .",
+    "lint": "eslint ..",
     "start:dev": "APP_ENV=development react-native start --reset-cache",
     "test": "jest --clearCache && jest --maxWorkers=50% --verbose --config=./jest.config.js",
     "test:watch": "jest --clearCache && jest --watch --maxWorkers=50%  --config=./jest.config.js",
