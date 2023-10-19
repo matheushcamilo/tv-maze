@@ -2,6 +2,7 @@ from typing import Type
 
 from data_import.models import ImportedDataMixin
 
+import logging
 
 import requests
 
@@ -9,6 +10,8 @@ BASE_URL = "https://api.tvmaze.com/"
 SUB_URL_MAP = {
     "TVMazeShow": "shows",
 }
+
+logger = logging.getLogger(__name__)
 
 
 class TVMazeImport:
@@ -45,8 +48,10 @@ class TVMazeImport:
                 imported_data, _ = self.__get_data_from_url()
             return imported_data
         except Exception as e:
-            print(f"Exception occurred: {e}")
+            logger.error(f"Exception occurred when importing data from {self.base_url}: {e}")
 
     def import_data(self):
+        logger.info(f"Importing {self.model_class.__name__} data from TVMaze")
         imported_data = self.__import_data_as_json()
         self.model_class.save_imported_data(imported_data)
+        logger.info(f"{self.model_class.__name__} data successfully imported from TVMaze")
