@@ -1,5 +1,9 @@
 from django.db import models
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class ImportedDataMixin(models.Model):
     tv_maze_id = models.PositiveIntegerField(primary_key=True)
@@ -21,9 +25,9 @@ class ImportedDataMixin(models.Model):
                 else:
                     data_to_create.append(cls(**data))
 
-            TVMazeShow.objects.bulk_create(data_to_create)
+            cls.objects.bulk_create(data_to_create)
         except Exception as e:
-            print(f"Exception occurred when saving data for {cls.__class__}: {e}")
+            logger.error(f"Exception occurred when saving data for {cls.__class__}: {e}")
 
 
 class TVMazeShow(ImportedDataMixin):
