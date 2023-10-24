@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 class ImportedDataMixin(models.Model):
-    tv_maze_id = models.PositiveIntegerField(primary_key=True)
+    tv_maze_id = models.PositiveIntegerField(unique=True)
 
     class Meta:
         abstract = True
