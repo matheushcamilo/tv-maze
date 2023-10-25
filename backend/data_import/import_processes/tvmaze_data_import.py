@@ -50,12 +50,11 @@ class TVMazeImport:
         except Exception as e:
             logger.error(f"Exception occurred when importing data from {self.base_url}: {e}")
 
-    def import_data(self):
-        """
-        Creates local cache of TVMaze data
-        """
-
+    def __import_data(self):
         logger.info(f"Importing {self.model_class.__name__} data from TVMaze")
-        data_from_tv_maze = self.__get_tv_maze_data_as_json()
+        return self.__get_tv_maze_data_as_json()
+
+    def import_tv_maze_data_and_save_it_as_local_cache(self):
+        data_from_tv_maze = self.__import_data()
         self.model_class.save_imported_data(data_from_tv_maze)
         logger.info(f"{self.model_class.__name__} data successfully imported from TVMaze")

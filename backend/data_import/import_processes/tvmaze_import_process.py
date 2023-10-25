@@ -14,7 +14,7 @@ class TVMazeImportProcess:
         start = timer()
 
         tv_show_import = TVMazeImport(TVMazeShow, use_pagination=True)
-        tv_show_import.import_data()
+        tv_show_import.import_tv_maze_data_and_save_it_as_local_cache()
 
         end = timer()
 
