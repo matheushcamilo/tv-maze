@@ -20,8 +20,8 @@ class TVMazeImport:
         self.use_pagination = use_pagination
         self.model_class = model_class
 
-    def __get_data_from_url(self, params=None, supress_error=False):
-        response = requests.get(self.base_url, params=params)
+    def __get_data_from_url(self, params=None, supress_error=False, **kwargs):
+        response = requests.get(self.base_url, params=params, **kwargs)
         if not supress_error and response.status_code != 200:
             raise Exception(f"Error getting data from {self.base_url}. Status code: {response.status_code}")
         return response.json(), response.status_code
@@ -40,7 +40,7 @@ class TVMazeImport:
 
         return imported_data
 
-    def __import_data_as_json(self):
+    def __get_tv_maze_data_as_json(self):
         try:
             if self.use_pagination:
                 imported_data = self.__get_data_from_paginated_url()
@@ -51,7 +51,11 @@ class TVMazeImport:
             logger.error(f"Exception occurred when importing data from {self.base_url}: {e}")
 
     def import_data(self):
+        """
+        Creates local cache of TVMaze data
+        """
+
         logger.info(f"Importing {self.model_class.__name__} data from TVMaze")
-        imported_data = self.__import_data_as_json()
-        self.model_class.save_imported_data(imported_data)
+        data_from_tv_maze = self.__get_tv_maze_data_as_json()
+        self.model_class.save_imported_data(data_from_tv_maze)
         logger.info(f"{self.model_class.__name__} data successfully imported from TVMaze")
