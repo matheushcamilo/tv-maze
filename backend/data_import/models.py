@@ -31,6 +31,13 @@ class ImportedDataMixin(models.Model):
 
 
 class TVMazeShow(ImportedDataMixin):
+    class TVMazeShowManager(models.Manager):
+        def available_shows(self):
+            return super().get_queryset().filter(
+                name__isnull=False,
+                image__isnull=False,
+            )
+
     url = models.URLField(null=True)
     name = models.CharField(max_length=255, null=True)
     type = models.CharField(max_length=255, null=True)
@@ -61,6 +68,8 @@ class TVMazeShow(ImportedDataMixin):
     updated = models.CharField(max_length=255, null=True)
 
     _links = models.JSONField(null=True)
+
+    objects = TVMazeShowManager()
 
     def __str__(self):
         return self.name

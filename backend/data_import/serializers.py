@@ -52,3 +52,33 @@ class TVMazeShowSerializer(serializers.ModelSerializer):
             "genres",
             "summary",
         ]
+
+
+class TVMazeSeasonSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    number = serializers.IntegerField()
+    name = serializers.CharField()
+    episodeOrder = serializers.IntegerField()
+    premiereDate = serializers.DateField()
+    endDate = serializers.DateField()
+    network = serializers.SerializerMethodField()
+    webChannel = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+    summary = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_network(obj):
+        return obj.get("network", None)
+
+    @staticmethod
+    def get_webChannel(obj):
+        return obj.get("webChannel", None)
+
+    @staticmethod
+    def get_image(obj):
+        return obj.get("image", None)
+
+    @staticmethod
+    def get_summary(obj):
+        summary = obj.get("summary", None)
+        return remove_html_tags(summary) if summary else ""
