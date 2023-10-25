@@ -82,3 +82,25 @@ class TVMazeSeasonSerializer(serializers.Serializer):
     def get_summary(obj):
         summary = obj.get("summary", None)
         return remove_html_tags(summary) if summary else ""
+
+
+class TVMazeEpisodesSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    season = serializers.IntegerField()
+    number = serializers.IntegerField()
+    airdate = serializers.DateField()
+    airtime = serializers.TimeField()
+    airstamp = serializers.DateTimeField()
+    runtime = serializers.IntegerField()
+    image = serializers.SerializerMethodField()
+    summary = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_image(obj):
+        return obj.get("image", None)
+
+    @staticmethod
+    def get_summary(obj):
+        summary = obj.get("summary", None)
+        return remove_html_tags(summary) if summary else ""
