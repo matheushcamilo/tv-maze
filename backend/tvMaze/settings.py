@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-oanlhwz+@1#)@!flz-rrugagkkq^4c7^1(!8hzl!p6y!f9*iyd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,6 +81,14 @@ WSGI_APPLICATION = "tvMaze.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'mydb',
+    #     'USER': 'myuser',
+    #     'PASSWORD': 'mypassword',
+    #     'HOST': 'db',
+    #     'PORT': '3306',
+    # }
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",

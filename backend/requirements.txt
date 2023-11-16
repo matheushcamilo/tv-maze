@@ -1,0 +1,15 @@
+asgiref==3.7.2
+certifi==2023.7.22
+charset-normalizer==3.3.0
+djangorestframework==3.14.0
+Django==4.2.5
+idna==3.4
+invoke==2.2.0
+pytz==2023.3.post1
+requests==2.31.0
+setuptools==68.1.2
+sqlparse==0.4.4
+typing-extensions==4.8.0
+urllib3==2.0.5
+mysqlclient==2.2.0
+pyyaml==6.0
