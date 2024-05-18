@@ -7,14 +7,10 @@ services:
       - "8000:8000"
     depends_on:
       - db
-    entrypoint: ["tail", "-f", "/dev/null"]
 
   db:
     container_name: mysql
     image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: my-secret-pw
-      MYSQL_DATABASE: mydb
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
+    env_file:
+      - ./backend/dev-env.env
 

@@ -1,32 +1,22 @@
-# Use an official Python runtime as a parent image
 FROM python:3.10-slim
 
+WORKDIR /app/backend
+
 RUN apt-get update && \
-    apt-get install -y \
-    pkg-config\
-    python3-dev \
+    apt-get install -y --no-install-recommends \
+    gcc \
     default-libmysqlclient-dev \
-    build-essential \
-    default-libmysqlclient-dev
+    pkg-config && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+COPY ./backend/requirements.txt /app/backend/
 
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy the requirements file into the container at /app
-COPY ./backend/requirements.txt /app/
-
-# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the current directory contents into the container at /app
-COPY ./backend /app/
+COPY ./backend /app/backend
 
-# Expose the port that Django will run on
-EXPOSE 8000
+RUN python manage.py makemigrations && \
+    python manage.py migrate && \
+    python manage.py loaddata fixtures/test_data.yaml
 
-# Run the Django development server
-# CMD ["python", "manage.py", "runserver"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
